@@ -1,0 +1,169 @@
+.Header_Parent{
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 1px;;
+}
+
+.Header{
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1700px;
+    margin: auto;
+  
+}
+.Header>div{
+    margin: 0 10px;
+   
+   
+}
+
+.Header_Icon{
+    color: rgb(226, 218, 206);
+    font-weight: bold;
+    font-size: 2rem;
+
+}
+
+.Header_Search{
+    border-radius: 30px;
+    background-color: rgb(241, 241, 242);
+    width: 500px;
+    padding: 8px;
+  
+    
+
+}
+
+.Header_Search input{
+    border: none;
+    background-color: rgb(241, 241, 242);
+}
+.Header_Search input::placeholder {
+    color: #999;
+    font-size: 1.3rem; 
+    font-style: italic; 
+  }
+
+.Header_Search button{
+    border: none;
+    border-left: 1px solid rgb(215, 215, 217);
+    color: rgb(63, 64, 73);
+    font-size: 1.1rem;
+   
+}
+
+
+
+
+
+.Header_Card {
+    position: relative; /* Ensure the card is positioned relative to its container */
+}
+  
+.Header_CardLink {
+display: block; /* Make the link a block-level element to contain everything inside it */
+text-decoration: none;
+color: black;
+font-weight: 1000;
+}
+  
+.CardIcon {
+position: relative; /* To position the number over the icon */
+
+}
+  
+.CartNumber {
+    position: absolute;
+    top: -5px; /* Adjust the position of the number vertically */
+    right: -10px; /* Adjust the position of the number horizontally */
+    background-color: rgb(254, 44, 85); /* Background color of the number */
+    color: white; /* Text color */
+    border-radius: 50%; /* Make the number round */
+    width: 20px; /* Size of the circle */
+    height: 20px; /* Size of the circle */
+    display: flex;
+    align-items: center; /* Center the number vertically */
+    justify-content: center; /* Center the number horizontally */
+    font-size: 12px; /* Size of the number text */
+}
+
+
+
+.Header_Shortcut>ul{
+    display: flex;
+    padding: 0;
+    align-items: center;
+    margin: 0;
+
+}
+.Header_Shortcut li{
+    color:  black;
+    margin: 0 12px;
+    font-size: 1.5rem;
+
+}
+.Header_Shortcut img {
+    width: 32px;            /* Set the size of the image */
+    height: 32px;           /* Make the height equal to the width to keep it square */
+    border-radius: 50px;     /* Make the image round */
+    object-fit: cover;      /* Ensure the image fills the container without distortion */
+}
+
+
+
+.Header_You{
+    position: relative;
+    
+}
+.Header_You:hover .Header_Your_settings{
+    opacity: 1;
+    /* display: block; */
+    transition: 300ms;
+    visibility: visible
+}
+/* .Header_You:hover .Header_Your_settings{
+  
+    opacity: 1;
+} */
+
+
+.Header_Your_settings{
+    position: absolute;
+    width: 200px;
+    left: -150px;
+    top:40px;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+    background-color: white;
+    transition: 300ms;
+    padding: 10px 0;
+    opacity: 0;
+    visibility: hidden
+    /* display: none; */
+}
+
+.Header_Your_settings ul{
+  padding: 0;
+  
+}
+.Header_Your_settings li:hover{
+    background-color:rgb(248, 248, 248);
+    
+}
+.Header_Your_settings li{
+    padding: 0;
+    margin: 0;
+    padding: 5px 18px;
+    
+}
+
+.Header_Your_settings i{
+  padding-right: 10px;
+}
+.Header_Your_settings p{
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
