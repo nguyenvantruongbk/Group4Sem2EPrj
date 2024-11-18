@@ -1,4 +1,6 @@
 .Slider {
+    position: fixed;
+
     overflow: auto;
     height: 60vh;
     color: rgb(31, 33, 44);
@@ -11,7 +13,24 @@
     /* Thanh cuộn sang trái */
     direction: rtl; /* Đặt thanh cuộn về bên trái */
     transform: translateX(0);
+
+    /* right: 0; */
     transition: 300ms;
+    /* opacity: 1; */
+    /* display: block; */
+    left: 0;
+}
+.IsAvite{
+    
+    transition: 300ms;
+
+    /* visibility: hidden;
+    opacity: 0; */
+    /* display: none; */
+    left: -300px;
+    /* transform: translateX(-300px); */
+
+ 
 }
 
 .Slider > * {
@@ -133,11 +152,7 @@
    
 }
 
-.IsAvite{
-    
-    transition: 300ms;
-    transform: translateX(-300px);
-}
+
 
 @keyframes shimmer {
     0% {

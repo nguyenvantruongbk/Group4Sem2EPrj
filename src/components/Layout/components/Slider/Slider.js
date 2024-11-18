@@ -13,7 +13,7 @@ function Slider() {
 
      
     return ( 
-    <>
+    <>  
         <div className={Style.Slider_buuton}>
             <button className={`${isActive ? "": Style.button_IsAvite} `} onClick={handleToggle}><i class="bi bi-caret-left-square-fill"></i></button>
         </div>
