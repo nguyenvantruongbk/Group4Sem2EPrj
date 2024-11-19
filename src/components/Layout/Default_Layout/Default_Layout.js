@@ -6,6 +6,7 @@ import Slider from "../components/Slider/Slider";
 import Style from "./Default_Layout.module.css"
 
 
+
 function Default_Layout({children}) {
     return ( 
         <div>
@@ -21,7 +22,7 @@ function Default_Layout({children}) {
                     {children}
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
      );
 }

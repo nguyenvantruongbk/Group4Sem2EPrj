@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Card_Defaul from '../../components/Layout/components/Card/Card_Defaul';
 
+
 import React, { useState, useEffect } from 'react';
 
 function Card_Slidler(){
@@ -206,6 +207,7 @@ function List_Menu(){
 
 
 function List_Card(){
+    
     const [list,setList] = useState([]);
     function callData(){
         const url = `https://dummyjson.com/products?limit=6`;
@@ -236,9 +238,6 @@ function List_Card(){
                     })
                 }
                 
-            
-
-
             </Row>
             </div>
         
