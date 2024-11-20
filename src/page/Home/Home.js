@@ -323,6 +323,9 @@ function Home_About_Us(){
     );
 }
 
+
+
+
 function Home() {
     return ( 
         <div className={styles.Container}  >
@@ -340,3 +343,5 @@ function Home() {
 }
 
 export default Home;
+
+export { List_Card};

@@ -3,12 +3,22 @@ import Form from 'react-bootstrap/Form';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import style from './Header.module.css'
 
+//Khai Báo Biến Toàn Cục
+import Context from '../../../../Context/Context';
+import { useContext } from 'react';
+
 function HeaderTikTok() {
+    
+
+    const {cart,setCart} = useContext(Context)
+
+
+
     return (
       <div className={style.Header_Parent}>
         <header className={style.Header}>
             <div className={style.Header_Icon} >
-                <div>COFFEE</div>
+                <div><a href='/'>COFFEE</a></div>
             </div>
             <div className={style.Header_Search}>
                 <Form className={`d-flex `}  >
@@ -27,10 +37,10 @@ function HeaderTikTok() {
                      <i class="bi bi-cup-hot"></i>
                   </li>
                   <li className={style.Header_Card}>
-                    <a href="https://example.com" className={style.Header_CardLink}>
+                    <a href="/cart" className={style.Header_CardLink}>
                       <div className={style.CardIcon}>
-                      <i class="bi bi-bag-heart"></i>
-                        <span className={style.CartNumber}>10</span> {/* Number displayed above the icon */}
+                      <i class="bi bi-cart2"></i>
+                        <span className={style.CartNumber}>{cart.length}</span> {/* Number displayed above the icon */}
                       </div>
                     </a>
                   </li>
