@@ -4,6 +4,7 @@ import com.example.cafebackend.entity.User;
 import com.example.cafebackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,9 +12,12 @@ public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+
+
+//    @Autowired
+//    private BCryptPasswordEncoder passwordEncoder;
 
     public void register(String name, String email, String password) {
         // Encrypt the password before saving

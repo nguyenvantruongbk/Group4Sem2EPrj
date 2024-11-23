@@ -2,6 +2,7 @@ package com.example.cafebackend.controller;
 import com.example.cafebackend.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.example.cafebackend.entity.User;
 
 @RestController
 @RequestMapping("/api/auth")
