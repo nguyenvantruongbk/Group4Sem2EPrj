@@ -14,7 +14,7 @@ import Menu from "./page/Menu/Menu";
 //Layout
 import Default_Layout from "./components/Layout/Default_Layout/Default_Layout";
 import Admin_Layout from "./components/Layout/Admin_Layout/Admin_Layout";
-
+import ProductDetails from "./page/ProductDetail/Product_Detail";
 function App() {
 
   const [cart,setCart] = useState([]);
@@ -30,6 +30,7 @@ function App() {
               <Route path="/about_us" element={<Default_Layout><About_us/></Default_Layout>} />
               <Route path="/menu" element={<Default_Layout><Menu /></Default_Layout>} />
               <Route path="/cart" element={<Default_Layout><Cart/></Default_Layout>} />
+              <Route path="/product/:id" element={<ProductDetails />} />
               {/* KhachHang */}
 
 
