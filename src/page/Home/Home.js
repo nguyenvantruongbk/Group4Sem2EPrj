@@ -4,6 +4,7 @@ import { Carousel } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import { Link } from "react-router-dom";
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -151,7 +152,9 @@ function Header_Home(){
                     <div className={styles.Header_Home_Left_Conten}>
                         <p className={styles.Header_Home_Left_Conten_H1} >Cà phê chất lượng được giao đến tận  nhà bạn</p>
                         <p className={styles.Header_Home_Left_Conten_H2}>Mọi việc chúng ta làm đều là vấn đề của trái tim, cơ thể và tâm hồn. Sứ mệnh của chúng tôi là cung cấp cà phê chất lượng, được hái bằng tay, có nguồn gốc bền vững</p>
-                        <button>Menu</button>
+                        <Link to="/menu">
+              <button className={styles.MenuButton}>Menu</button>
+            </Link>
                     </div>
                 </Col>
                 
