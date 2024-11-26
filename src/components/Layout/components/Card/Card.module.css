@@ -1,0 +1,251 @@
+.Card_Defaul {
+    display: flex;
+    max-width: 25vw;
+ 
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+}
+.Card_Defaul p{
+    padding: 0;
+    margin: 0;
+ 
+
+}
+
+.Card_Defaul_Img {
+    padding: 20px;
+     /* Đảm bảo thẻ con giữ đúng tỷ lệ */
+}
+
+.Card_Defaul_Img img {
+    width: 100%; /* Đảm bảo ảnh chiếm đầy đủ width của thẻ cha */
+    height: auto; /* Giữ nguyên tỷ lệ của ảnh */
+    object-fit: cover; /* Giúp giữ tỷ lệ mà vẫn đảm bảo không bị méo */
+}
+
+.Card_Defaul_Conten{
+    width: 100%;
+    font-size: 1rem;
+    padding: 20px;
+    border-left: 1px solid rgb(223, 184, 144);
+    background-color: rgb(247, 240, 234);
+}
+
+.Card_Defaul_Conten_Title{
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+
+    width:200px;
+    
+     overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." */
+    white-space: nowrap; /* Ngừng dòng khi tràn */
+    word-wrap: normal; /* Không cho phép gói từ */
+}
+
+
+.Card_Defaul_Conten_Size_Price{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Card_Defaul_Conten_Describe{
+    font-size: 0.8em;
+    width:240px;
+    color: rgb(109, 108, 108);
+    height: 40px;
+    overflow: auto; /* Hiển thị thanh cuộn nếu nội dung tràn */
+    white-space: normal; /* Cho phép xuống dòng */
+    word-wrap: break-word; 
+    margin-bottom: 10px;
+}
+
+.Card_Defaul_Conten_Describe::-webkit-scrollbar {
+    width: 6px; /* Độ rộng của thanh cuộn dọc */
+    height: 6px; /* Độ cao của thanh cuộn ngang */
+}
+
+.Card_Defaul_Conten_Describe::-webkit-scrollbar-track {
+    background: #f0f0f0; /* Màu nền của đường ray thanh cuộn */
+    border-radius: 5px; /* Bo góc đường ray */
+}
+
+.Card_Defaul_Conten_Describe::-webkit-scrollbar-thumb {
+    background: rgb(150, 150, 150); /* Màu của thanh cuộn */
+    border-radius: 5px; /* Bo góc thanh cuộn */
+}
+
+.Card_Defaul_Conten_Describe::-webkit-scrollbar-thumb:hover {
+    background: rgb(100, 100, 100); /* Màu thanh cuộn khi hover */
+}
+
+.Card_Defaul_Conten_Star{
+    margin-bottom: 10px;
+    color: rgb(235, 188, 34);
+    
+}
+
+.Card_Defaul_Conten_Size_Price{
+    margin-bottom: 20px;
+
+}
+
+.Card_Defaul_Conten_Size_Price_Size .Input2 input{
+    border: 2px solid rgb(252, 88, 23);
+}
+
+.Card_Defaul_Conten_Size_Price_Size .Input1 input{
+    border: 2px solid rgb(250, 179, 72);
+}
+.Card_Defaul_Conten_Size_Price_Size .Input3 input{
+    border: 2px solid rgb(255, 0, 0);
+}
+
+
+
+.Card_Defaul_Conten_Button{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+ 
+}
+
+.Card_Defaul_Conten_Button_WachMore button{
+    background: linear-gradient(135deg, rgb(71, 236, 254), rgb(203, 84, 235));
+    border-radius: 50px;
+    height: 40px;
+    padding: 0px 30px;
+    color: white;
+    font-weight: bold;
+ 
+
+    
+    border: 2px solid ;
+    animation: rainbowBorder 4s infinite linear;
+}
+/* Nút 'Watch More' */
+.Card_Defaul_Conten_Button_WachMore button {
+    background: linear-gradient(135deg, rgb(255, 162, 0), rgb(38, 3, 2)); /* Màu gradient dễ nhìn, hợp với cafe */
+    border-radius: 50px;
+    height: 40px;
+    padding: 0px 30px;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease; /* Hiệu ứng chuyển động */
+    /* Quay màu cầu vồng */
+}
+
+/* Hiệu ứng hover cho 'Watch More' */
+.Card_Defaul_Conten_Button_WachMore button:hover {
+    background: linear-gradient(135deg, rgb(38, 3, 2), rgb(255, 162, 0)); /* Đảo ngược gradient khi hover */
+    transform: scale(1.05); /* Phóng to nút khi hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Nút 'Add to Cart' */
+.Card_Defaul_Conten_Button_Add_to_Card button {
+   background-color: rgb(164, 125, 85);
+    border-radius: 10px;
+    height: 40px;
+    width: 40px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+
+
+}
+
+/* Hiệu ứng hover cho 'Add to Cart' */
+.Card_Defaul_Conten_Button_Add_to_Card button:hover {
+    background-color: rgb(110, 86, 61);
+    transform: scale(1.1); /* Phóng to nút khi hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+@media (max-width: 1024px) {
+    .Card_Defaul {
+        max-width: 45vw; /* Điều chỉnh độ rộng cho máy tính bảng */
+    }
+
+    .Card_Defaul_Conten_Describe {
+        width: 180px; /* Thu hẹp mô tả cho phù hợp */
+    }
+
+    .Card_Defaul_Conten_Button_WachMore button {
+        font-size: 0.9rem; /* Giảm kích thước font cho nút */
+    }
+
+    .Card_Defaul_Conten_Button_Add_to_Card button {
+        width: 35px; /* Giảm kích thước nút thêm vào giỏ */
+    }
+}
+
+@media (max-width: 1500px) {
+    .Card_Defaul_Img{
+        padding: 0;
+      
+        
+    }
+    .Card_Defaul {
+        flex-direction: column; /* Chuyển thẻ card thành dạng cột trên di động */
+        max-width: 49vw; /* Điều chỉnh độ rộng cho điện thoại */
+        padding: 10px; /* Thêm padding cho thẻ card để tạo khoảng cách */
+    }
+
+    .Card_Defaul_Img {
+        width: 100% ;/* Giảm kích thước hình ảnh xuống 60% trên điện thoại */
+        height: auto;
+        margin-bottom: 15px; /* Thêm khoảng cách giữa hình ảnh và phần nội dung */
+    }
+
+    .Card_Defaul_Conten_Title {
+        font-size: 1.2rem; /* Giảm kích thước tiêu đề cho phù hợp với màn hình nhỏ */
+        width:150px;
+    }
+
+    .Card_Defaul_Conten_Describe {
+        width: 100%; /* Cho phép mô tả chiếm toàn bộ chiều rộng */
+        font-size: 0.75rem; /* Giảm kích thước văn bản mô tả */
+    }
+
+    .Card_Defaul_Conten_Star {
+        margin-bottom: 8px; /* Giảm khoảng cách giữa các sao */
+    }
+
+    .Card_Defaul_Conten_Button_WachMore button {
+        font-size: 0.9rem; /* Giảm kích thước font cho nút */
+        padding: 0px 20px;
+    }
+
+    .Card_Defaul_Conten_Button_Add_to_Card button {
+        font-size: 1.1rem; /* Giảm kích thước font cho nút thêm vào giỏ */
+        width: 35px;
+    }
+    .Card_Defaul_Conten_Describe{
+        width: 190px;
+    }
+}
+
+@keyframes rainbowBorder {
+    0% {
+        border-color: rgb(61, 20, 1);
+    }
+    
+    50% {
+        border-color: rgb(219, 136, 0);
+    }
+    100% {
+        border-color: rgb(61, 20, 1);
+    }
+}

@@ -3,12 +3,22 @@ import Form from 'react-bootstrap/Form';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import style from './Header.module.css'
 
+//Khai Báo Biến Toàn Cục
+import Context from '../../../../Context/Context';
+import { useContext } from 'react';
+
 function HeaderTikTok() {
+    
+
+    const {cart,setCart} = useContext(Context)
+
+
+
     return (
       <div className={style.Header_Parent}>
         <header className={style.Header}>
             <div className={style.Header_Icon} >
-                <div>COFFEE</div>
+                <div><a href='/'>COFFEE</a></div>
             </div>
             <div className={style.Header_Search}>
                 <Form className={`d-flex `}  >
@@ -27,10 +37,10 @@ function HeaderTikTok() {
                      <i class="bi bi-cup-hot"></i>
                   </li>
                   <li className={style.Header_Card}>
-                    <a href="https://example.com" className={style.Header_CardLink}>
+                    <a href="/cart" className={style.Header_CardLink}>
                       <div className={style.CardIcon}>
-                      <i class="bi bi-bag-heart"></i>
-                        <span className={style.CartNumber}>10</span> {/* Number displayed above the icon */}
+                      <i class="bi bi-cart2"></i>
+                        <span className={style.CartNumber}>{cart.length}</span> {/* Number displayed above the icon */}
                       </div>
                     </a>
                   </li>
@@ -38,7 +48,7 @@ function HeaderTikTok() {
                   <li className={style.Header_You} >
                     <img src="./image/anhdaidien.jpg" alt="Ảnh Đại diện" />
                     <div className={style.Header_Your_settings} >
-                        <ul style={{ display: 'block' }}>
+                        <ul style={{ display: 'none' }}>
                           <li>
                             <p><i class="bi bi-person-circle"></i> Xem Hồ Sơ</p>
                           </li>
@@ -53,12 +63,12 @@ function HeaderTikTok() {
                           </li>
                          
                         </ul>
-                        <ul style={{ display: 'none' }}>
+                        <ul style={{ display: 'block' }}>
                           <li>
-                            <p><i class="bi bi-box-arrow-right"></i>Đăng Nhập</p>
+                            <p><a href='/login_register'><i  class="bi bi-box-arrow-right"></i>Đăng Nhập</a></p>
                           </li>
                           <li>
-                            <p><i class="bi bi-person-plus"></i>Đăng Kí</p>
+                            <p><a href='/login_register'><i class="bi bi-person-plus"></i>Đăng Kí</a></p>
                           </li>
                           
                         </ul>

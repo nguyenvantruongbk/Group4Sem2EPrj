@@ -53,7 +53,7 @@ function Slider() {
                         <p><span><i className="bi bi-file-earmark-text-fill"></i></span>Hủy Đơn</p>
                     </li>
                     <li>
-                        <p><span><i class="bi bi-cart-plus-fill"></i></span>Đặt Hàng </p>
+                        <p><a href="/cart" ><span><i class="bi bi-cart2"></i></span>Giỏ Hàng </a></p>
                     </li>
                     <li>
                     <Accordion >

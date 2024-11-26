@@ -4,9 +4,14 @@ import { Carousel } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import { Link } from "react-router-dom";
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Card_Defaul from '../../components/Layout/components/Card/Card_Defaul';
+
+
+import React, { useState, useEffect } from 'react';
 
 function Card_Slidler(){
     return(
@@ -27,7 +32,7 @@ function Card_Slidler(){
                                     <div className={styles.Card_Slidle_Body_Conten_Left_Img} >
                                         <img 
                                             className={styles.Card_Slidle_Body_Conten_Right_Conten_Image}
-                                            src="https://xofacafebistro.com/wp-content/uploads/2023/01/coffee-beans-with-props-for-making-coffee-e1624585646810-1137x1536.jpg" 
+                                            src="https://xofacafebistro.com/wp-content/uploads/2023/01/coffee-cups-and-coffee-beans-768x1082.jpg" 
                                             alt="Update Preview"
                                         />
                                     </div>
@@ -147,7 +152,9 @@ function Header_Home(){
                     <div className={styles.Header_Home_Left_Conten}>
                         <p className={styles.Header_Home_Left_Conten_H1} >Cà phê chất lượng được giao đến tận  nhà bạn</p>
                         <p className={styles.Header_Home_Left_Conten_H2}>Mọi việc chúng ta làm đều là vấn đề của trái tim, cơ thể và tâm hồn. Sứ mệnh của chúng tôi là cung cấp cà phê chất lượng, được hái bằng tay, có nguồn gốc bền vững</p>
-                        <button>Menu</button>
+                        <Link to="/menu">
+              <button className={styles.MenuButton}>Menu</button>
+            </Link>
                     </div>
                 </Col>
                 
@@ -158,6 +165,9 @@ function Header_Home(){
 
 
 function List_Menu(){
+
+   
+
     return (
         <div className={styles.Home_List_Menu}>
             <Row className={styles.Home_List_Menu_Conten}>
@@ -200,31 +210,141 @@ function List_Menu(){
 
 
 function List_Card(){
+    
+    const [list,setList] = useState([]);
+    function callData(){
+        const url = `https://dummyjson.com/products?limit=6`;
+        fetch(url).then(rs=>rs.json())
+        .then(data=>{
+            setList(data.products);
+        });
+    }
+    useEffect(function(){
+        callData();
+    },[]);
+
+  
     return(
-        <Card style={{ width: '18rem' }}>
-        <Card.Img variant="top" src="https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png" />
-        <Card.Body>
-            <Card.Title>Card Title</Card.Title>
-            <Card.Text>
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
-            </Card.Text>
-            <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-        </Card>
+       <div className={styles.List_Card}  >
+            <div className={styles.Card_Slidler_Title} style={{marginBottom:60}} >
+                <div>
+                    <p>ĐÁNH GIÁ CAO</p>
+                </div>
+            </div>
+            <div>
+
+            
+            <Row className='g-2'>
+                {
+                    list.map((e,i)=>{
+                        return <Col xs={6}  sm={6}  md={4} key={i}  > <Card_Defaul iteam={e} /></Col>
+                    })
+                }
+                
+            </Row>
+            </div>
+        
+       
+       </div>
   );
 }
+
+
+function Home_About_Us(){
+    return(
+        <div className={styles.Home_About_Us}>
+            <div className={styles.Home_About_Us_Title} >
+                <p>Về Chúng Tôi</p>
+            </div>
+            <div className={styles.Home_About_Us_vertical_line} >
+                
+            </div>
+            <div className={styles.Home_About_Us_Conten} >
+                <p>Mọi việc chúng ta làm đều là vấn đề của trái tim, thể xác và tâm hồn. Chúng tôi cố gắng hình thành mối quan hệ đối tác sâu sắc với nông dân từ khắp nơi trên thế giới để cùng nhau tạo ra quan điểm và hình thành các mối quan hệ làm việc lành mạnh được xây dựng trên sự tin tưởng và tôn trọng</p>
+
+
+                <button>ĐỌC THÊM</button>
+            </div>
+
+
+            <div className={styles.Home_About_Us_Title} >
+                <p>Follow on Instagram</p>
+            </div>
+            <div className={styles.Home_About_Us_vertical_line} >
+                
+            </div>
+            <div>
+                <Row className="g-0">
+                  
+                    <Col xs={6} sm={4} md={2}>
+                        <img
+                        className="img-fluid"
+                        src="https://www.amayatheme.redsun.design/roastery/wp-content/uploads/sites/2/sb-instagram-feed-images/120195602_249178153140668_4124167805856436187_nfull.jpg"
+                        alt="Image"
+                        />
+                    </Col>
+                                    <Col xs={6}  sm={4} md={2}>
+                        <img
+                        className="img-fluid"
+                        src="https://www.amayatheme.redsun.design/roastery/wp-content/uploads/sites/2/sb-instagram-feed-images/119886667_102416571596524_8435132330489653478_nfull.jpg"
+                        alt="Image"
+                        />
+                    </Col>
+                                    <Col xs={6} sm={4} md={2}>
+                        <img
+                        className="img-fluid"
+                        src="https://www.amayatheme.redsun.design/roastery/wp-content/uploads/sites/2/sb-instagram-feed-images/120132785_621075875245187_3739656102265052935_nfull.jpg"
+                        alt="Image"
+                        />
+                    </Col>
+                                    <Col xs={6} sm={4} md={2}>
+                        <img
+                        className="img-fluid"
+                        src="https://www.amayatheme.redsun.design/roastery/wp-content/uploads/sites/2/sb-instagram-feed-images/120133763_792102311603530_7871492403308681854_nfull.jpg"
+                        alt="Image"
+                        />
+                    </Col>
+                                    <Col xs={6} sm={4} md={2}>
+                        <img
+                        className="img-fluid"
+                        src="https://www.amayatheme.redsun.design/roastery/wp-content/uploads/sites/2/sb-instagram-feed-images/120176363_371642934002855_8797918585875241459_nfull.jpg"
+                        alt="Image"
+                        />
+                    </Col>
+                                    <Col xs={6} sm={4} md={2}>
+                        <img
+                        className="img-fluid"
+                        src="https://www.amayatheme.redsun.design/roastery/wp-content/uploads/sites/2/sb-instagram-feed-images/120031798_200401764795682_5230375972606461977_nfull.jpg"
+                        alt="Image"
+                        />
+                    </Col>
+
+                </Row>
+            </div>
+           
+        </div>
+    );
+}
+
+
+
 
 function Home() {
     return ( 
         <div className={styles.Container}  >
            <Header_Home/>
+            
+            <List_Card/>
 
             <List_Menu/>
 
             <Card_Slidler/>
+
+            <Home_About_Us/>
         </div>
      );
 }
 
 export default Home;
+
+export { List_Card};

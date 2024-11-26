@@ -8,6 +8,7 @@
     background-position: center; /* Đặt ảnh ở giữa */
     background-repeat: no-repeat; /* Không lặp lại ảnh */
     height: 60vh;
+    margin-bottom: 100px;
 }
 
 .Header_Home_Left{
@@ -150,8 +151,10 @@
   /* SidlerCart */
    /* SidlerCart */
 
-   .Card_Slidler {
-    margin: 100px 0;
+.Card_Slidler {
+    margin-top: 30vh;
+    margin-bottom: 30vh;
+   
 }
 
 .Card_Slidler_Title {
@@ -168,9 +171,16 @@
 }
 
 .Card_Slidle_Body {
-    background: linear-gradient(35deg, rgb(194, 217, 227), rgb(241, 236, 233));
+    /* background: linear-gradient(35deg, rgb(194, 217, 227), rgb(241, 236, 233)); */
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.5), rgb(0, 0, 0)), /* Lớp phủ tối */
+        url(https://xofacafebistro.com/wp-content/uploads/2023/01/coffee-cup-coffee-beans-1.jpg); /* Hình nền */
+    background-size: cover;
+    background-repeat: no-repeat;
     padding: 50px 0;
+   
 }
+
 
 .Card_Slidle_Body_Conten {
     background-color: rgb(255, 255, 255);
@@ -291,4 +301,80 @@
     }
 
  
+}
+
+/* Home_About_Us */
+/* Home_About_Us */
+/* Home_About_Us */
+/* Home_About_Us */
+
+
+.Home_About_Us{
+    margin-top: 20vh;
+    text-align: center;
+    margin-bottom: 20vh;
+}
+.Home_About_Us_Title{
+    font-size: 3.2rem;
+
+    
+}
+
+.Home_About_Us_vertical_line{
+    width: 2px;
+    height: 40px;
+    background-color: rgb(219, 148, 87);
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.Home_About_Us_Conten{
+    max-width: 40vw;
+    margin: auto;
+    font-size: 1.2rem;
+}
+
+
+
+.Home_About_Us_Conten button{
+    border: 2px solid rgb(219, 148, 87);
+    width: 187px;
+    height: 43px;
+    font-size: 1.6rem;
+    transition: 300ms;
+    font-size: 1rem;
+    margin-top: 30px;
+    margin-bottom: 70px;
+
+
+}
+
+.Home_About_Us_Conten button:hover{
+   background-color:rgb(219, 148, 87) ;
+   transition: 300ms;
+   color:  white;
+    
+}
+
+@media screen and (max-width: 768px) {
+    .Home_About_Us_Conten{
+        max-width: 100%;
+        margin: auto;
+        font-size: 1.2rem;
+    }
+    
+}
+
+
+/* List_Card */
+
+
+
+.List_Card{
+   
+    max-width: 1600px;
+  
+    margin: auto;
+    margin-bottom: 200px;
+
 }
