@@ -14,7 +14,6 @@ const CoffeeMenu = () => {
   const [availabilityStatus, setAvailabilityStatus] = useState("all");
 
   const itemsPerPage = 12;
-
   useEffect(() => {
     const fetchData = async () => {
       try {
