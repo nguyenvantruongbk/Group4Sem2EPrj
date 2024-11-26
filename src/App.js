@@ -8,6 +8,7 @@ import Home from "./page/Home/Home";
 import About_us from "./page/About_us/About_us";
 import Owner from "./page/Owner/Owner";
 import Cart from "./page/Cart/Cart";
+import Contact from "./page/Contact_us/Contact_us";
 
 import { ContextProvider } from "./Context/Context";
 import Menu from "./page/Menu/Menu";
@@ -35,6 +36,7 @@ function App() {
               <Route path="/cart" element={<Default_Layout><Cart/></Default_Layout>} />
               <Route path="/login_register" element={<Login_Register/>} />
               <Route path="/product/:id" element={<Slider_Layout> <ProductDetails /></Slider_Layout>} />
+              <Route path="/contact" element={<Contact/>} />
               {/* KhachHang */}
 
 
