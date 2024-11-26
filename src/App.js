@@ -15,6 +15,7 @@ import { ContextProvider } from "./Context/Context";
 //Layout
 import Default_Layout from "./components/Layout/Default_Layout/Default_Layout";
 import Admin_Layout from "./components/Layout/Admin_Layout/Admin_Layout";
+import Login_Register from "./page/Login_Register/Login_Register";
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
               <Route path="/" element={<Default_Layout><Home/></Default_Layout>} />
               <Route path="/about_us" element={<Default_Layout><About_us/></Default_Layout>} />
               <Route path="/cart" element={<Default_Layout><Cart/></Default_Layout>} />
+              <Route path="/login_register" element={<Login_Register/>} />
               {/* KhachHang */}
 
 

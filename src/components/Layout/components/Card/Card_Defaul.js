@@ -20,7 +20,7 @@ function Card_Defaul(props) {
         Add_To_Card({props:iteam,cart,setCart})
     };
 
-
+    
 
     return ( 
     <div className={Style.Card_Defaul} >
