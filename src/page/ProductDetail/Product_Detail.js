@@ -26,14 +26,23 @@ const ProductDetail = () => {
             src={product.thumbnail}
             alt={product.title}
             className="img-fluid"
-            style={{ maxHeight: '300px', objectFit: 'cover' }}
+            style={{ maxHeight: '300px',
+                     display: 'block',
+                     marginLeft: 'auto',
+                     marginTop: '-26px',
+                     marginRight:'-10px',
+                     width: '250px',
+                     border: '1px solid orange'
+                    }}
           />
         </div>
         <div className="col-md-5">
           <h1>{product.title}</h1>
-          <p>{product.description}</p>
+          <h5 style={{padding: '5px'}}>{product.description}</h5>
+          <h5><b>Price: </b>{product.price.toLocaleString()}₫</h5>
+          <h5><b>Brand: </b>{product.brand}</h5>
+
         </div>
-        {/* Truyền reviews vào component ProductReviews */}
         <ProductReviews reviews={product.reviews || []} />
       </div>
     </div>
