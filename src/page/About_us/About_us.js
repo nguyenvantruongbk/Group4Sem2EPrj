@@ -1,9 +1,7 @@
-<<<<<<< Updated upstream
-=======
 import styles from './About_us.module.css';
 import React from 'react';
 import { useState } from 'react';
->>>>>>> Stashed changes
+
 
 function About_us() {
   const [hoveredImage, setHoveredImage] = useState(null);
