@@ -48,7 +48,7 @@ function HeaderTikTok() {
                   <li className={style.Header_You} >
                     <img src="./image/anhdaidien.jpg" alt="Ảnh Đại diện" />
                     <div className={style.Header_Your_settings} >
-                        <ul style={{ display: 'block' }}>
+                        <ul style={{ display: 'none' }}>
                           <li>
                             <p><i class="bi bi-person-circle"></i> Xem Hồ Sơ</p>
                           </li>
@@ -63,12 +63,12 @@ function HeaderTikTok() {
                           </li>
                          
                         </ul>
-                        <ul style={{ display: 'none' }}>
+                        <ul style={{ display: 'block' }}>
                           <li>
-                            <p><i class="bi bi-box-arrow-right"></i>Đăng Nhập</p>
+                            <p><a href='/login_register'><i  class="bi bi-box-arrow-right"></i>Đăng Nhập</a></p>
                           </li>
                           <li>
-                            <p><i class="bi bi-person-plus"></i>Đăng Kí</p>
+                            <p><a href='/login_register'><i class="bi bi-person-plus"></i>Đăng Kí</a></p>
                           </li>
                           
                         </ul>
