@@ -1,43 +1,41 @@
-// import React from 'react';
-// import ProductReviews from '../../components/Layout/components/Card_Detail/ProductReviews';
-// const ProductDetail = ({ product }) => {
-//   return (
-//     <div>
-//       <h1>{product.title}</h1>
-//       <p>{product.description}</p>
-//       <ProductReviews reviews={product.reviews} />
-//     </div>
-//   );
-// };
-
-// export default ProductDetail;
-
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom'; // Import useParams
 import ProductReviews from '../../components/Layout/components/Card_Detail/ProductReviews';
+
 const ProductDetail = () => {
-  const [product, setProduct] = useState(null); // Khởi tạo product là null
+  const { id } = useParams(); // Lấy id từ URL
+  const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    // Lấy dữ liệu sản phẩm từ API
-    fetch('https://dummyjson.com/products/1')  // Thay đổi URL của bạn nếu cần
+    // Gọi API với id linh hoạt
+    fetch(`https://dummyjson.com/products/${id}`)
       .then((response) => response.json())
-      .then((data) => setProduct(data)) // Đảm bảo lưu dữ liệu vào state
+      .then((data) => setProduct(data))
       .catch((error) => console.error('Error fetching product data:', error));
-  }, []);
+  }, [id]); // Thêm id vào dependencies của useEffect
 
-  // Nếu product là null (chưa tải xong), hiển thị loading
   if (!product) {
     return <p>Loading...</p>;
   }
 
   return (
-    <div>
-        <div>
+    <div className="container mt-5">
+      <div className="row">
+        <div className="col-md-4">
+          <img
+            src={product.thumbnail}
+            alt={product.title}
+            className="img-fluid"
+            style={{ maxHeight: '300px', objectFit: 'cover' }}
+          />
+        </div>
+        <div className="col-md-5">
           <h1>{product.title}</h1>
           <p>{product.description}</p>
         </div>
-      {/* Truyền reviews vào component ProductReviews */}
-      <ProductReviews reviews={product.reviews} />
+        {/* Truyền reviews vào component ProductReviews */}
+        <ProductReviews reviews={product.reviews || []} />
+      </div>
     </div>
   );
 };
