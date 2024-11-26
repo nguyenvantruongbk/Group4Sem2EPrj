@@ -17,6 +17,13 @@ export const ContextProvider = ({ children }) => {
     localStorage.setItem('cart', JSON.stringify(cart)); // Cập nhật giỏ hàng trong localStorage
   }, [cart]); // Mảng phụ thuộc đảm bảo chỉ chạy khi giỏ hàng (cart) thay đổi
 
+
+
+
+
+
+
+  
   return (
     <Context.Provider value={{ cart, setCart }}>
       {children}  {/* Truyền dữ liệu giỏ hàng và phương thức setCart cho các component con */}
