@@ -25,11 +25,13 @@
     height: 100vh;
     color: white;
     transition: 300ms;
-    transform: translateX();
+   
     
 }
 .Defaul_Layout>div{
     height: 100%;
+    transition: 300ms;
+   
 }
 .Defaul {
     width: 35vw;
@@ -41,7 +43,7 @@
     justify-content: center;
     transition: 300ms;
     /* Border with white color */
-    border-right: 2px solid white; 
+    border: 2px solid white; 
 
     /* Box shadow with a white color and slight blur for effect */
     box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.6);
@@ -79,8 +81,6 @@
 
 .Input input{
     width: 100%;
-  
-   
     background-color: transparent;
     border: none;
     outline: none;
@@ -150,7 +150,7 @@ canvas{
     background-image: linear-gradient(
         0deg, 
         rgb(216, 213, 207)0%, 
-        rgb(192, 180, 164)100%
+        rgb(231, 190, 125)100%
     );
     /* background-size: cover; /* Điều chỉnh kích thước hình nền sao cho không bị méo */
     /* background-repeat: no-repeat; /* Ngừng lặp lại hình nền */

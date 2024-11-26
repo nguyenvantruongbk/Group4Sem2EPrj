@@ -1,62 +1,77 @@
-import React, { Suspense, useContext, useEffect, useState } from "react";  // Make sure to import useState
-import { Canvas } from "@react-three/fiber";
+import React, { Suspense, useContext, useEffect, useState,useMemo } from "react";  // Make sure to import useState
+import { Canvas , useThree , useFrame } from "@react-three/fiber";
 import { OrbitControls, useGLTF, Environment } from "@react-three/drei";
 import Style from './Login_Register.module.css';
 import { Mesh } from "three";
 import { EXRLoader } from "three/examples/jsm/Addons.js";
-
+import { a, useSpring } from "@react-spring/three";
 //THREE REACT
 
+function SmoothCamera({ isLogin }) {
+    const { camera } = useThree();
 
+    // Dùng react-spring để tạo hiệu ứng di chuyển camera
+    const { position, rotation } = useSpring({
+        position: isLogin ? [0, 0, 5] : [1, 2, -5], // Camera position khi login và logout
+        rotation: isLogin
+            ? [0, 0, 5] // Góc 30 độ
+            : [-Math.PI / 1, Math.PI / 10, Math.PI/1], // Góc khi logout
+        config: { mass: 5, tension: 50, friction: 50 }, // Tinh chỉnh tốc độ và mượt mà
+    });
 
+    useFrame(() => {
+        // Cập nhật vị trí và góc xoay camera
+        camera.position.set(...position.get()); // Cập nhật vị trí camera liên tục
+        camera.rotation.set(...rotation.get()); // Cập nhật góc xoay camera liên tục
+        camera.lookAt(0, 0, 0); // Giữ camera nhìn vào một điểm cố định
+    });
 
+    return null;
+}
 
-function ShibaModel({ position = [0, 0, 0],rotation = [0, 0, 0] }) {
-
+function ShibaModel({ position = [0, 0, 0], rotation = [0, 0, 0] }) {
     const { scene } = useGLTF("./obj/coffee/scene.gltf");
-    const [movement, setMovement] = useState(0);
+    const shibaScene = useMemo(() => scene.clone(), [scene]);
 
-    scene.rotation.set(rotation[0], rotation[1], rotation[2]);
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setMovement(Math.sin(Date.now() * 0.001) * 0.1); // Tạo hiệu ứng lắc nhẹ
-        }, 16); // Cập nhật mỗi frame
-        return () => clearInterval(interval);
-    }, []);
-
-    scene.traverse((object) => {
+    shibaScene.rotation.set(rotation[0], rotation[1], rotation[2]);
+    shibaScene.traverse((object) => {
         if (object instanceof Mesh) {
-          object.castShadow = true; // Kích hoạt đổ bóng
-          object.receiveShadow = true; // Nhận đổ bóng
-          object.material.envMapIntensity = 60; // Tăng độ phản chiếu môi trường
+            object.castShadow = true;
+            object.receiveShadow = true;
+            object.material.envMapIntensity = 60;
         }
-      });
-    return <primitive object={scene} scale={0.04} position={position} />;
+    });
+
+    return <primitive object={shibaScene} scale={0.04} position={position} />;
 }
 
 
 function RamdomCoffe({ Num }) {
-    const randomCoffees = [];
-    
-    for (let i = 0; i < Num; i++) {
-        // Tạo tọa độ ngẫu nhiên trong khoảng [-3, 3], và cho phép phần thập phân
-        const randomX = (Math.random() * 6 -2).toFixed(2); // Số ngẫu nhiên với 1 chữ số thập phân
-        const randomY = (Math.random() * 6 - 0.5).toFixed(2); // Số ngẫu nhiên với 1 chữ số thập phân
-        const randomZ = (Math.random() * 6 - 0.5).toFixed(2); // Số ngẫu nhiên với 1 chữ số thập phân
+    const [randomCoffees, setRandomCoffees] = useState([]);
 
+    useEffect(() => {
+        const coffees = [];
+        for (let i = 0; i < Num; i++) {
+            const randomX = (Math.random() * 6 - 2).toFixed(2);
+            const randomY = (Math.random() * 6 - 0.5).toFixed(2);
+            const randomZ = (Math.random() * 6 - 0.5).toFixed(2);
+            const rotateX = (Math.random() * 6 - 2).toFixed(1);
+            const rotateY = (Math.random() * 6 - 2).toFixed(1);
+            const rotateZ = (Math.random() * 6 - 2).toFixed(1);
 
-        const rotateX = (Math.random() * 6 - 2).toFixed(1); // Số ngẫu nhiên với 1 chữ số thập phân
-        const rotateY = (Math.random() * 6 - 2).toFixed(1); // Số ngẫu nhiên với 1 chữ số thập phân
-        const rotateZ = (Math.random() * 6 - 2).toFixed(1);
-        // Thêm đối tượng Coffe_bean với tọa độ ngẫu nhiên vào mảng
-        randomCoffees.push(
-            <Coffe_bean  position={[parseFloat(randomX), parseFloat(randomY), parseFloat(randomZ)]} rotation={[parseFloat(randomX), parseFloat(randomY), parseFloat(randomZ)]} />
-        );
-    }
+            coffees.push(
+                <Coffe_bean
+                    key={i}
+                    position={[parseFloat(randomX), parseFloat(randomY), parseFloat(randomZ)]}
+                    rotation={[parseFloat(rotateX), parseFloat(rotateY), parseFloat(rotateZ)]}
+                />
+            );
+        }
+        setRandomCoffees(coffees);
+    }, [Num]);
 
     return <>{randomCoffees}</>;
 }
-
 
 
 function Coffe_bean({ position = [0, 0, 0], rotation = [0, 0, 0] }) {
@@ -75,7 +90,7 @@ function Coffe_bean({ position = [0, 0, 0], rotation = [0, 0, 0] }) {
     return <primitive object={coffeeBeanScene} scale={0.1} position={position} />;
   }
 
-function Canvas_Three_Js(){
+function Canvas_Three_Js({ isLogin }){
     return(
         <Suspense fallback={null}>
             <Canvas >
@@ -92,17 +107,18 @@ function Canvas_Three_Js(){
                 loader={EXRLoader} // Dùng EXRLoader để đọc file .exr
              
                 />
-
-                <OrbitControls/>
+                <SmoothCamera isLogin={isLogin} />
+  
+                {/* <OrbitControls/> */}
             
-                <RamdomCoffe Num={30}/>
+                <RamdomCoffe Num={50}/>
                 <ShibaModel  position ={[3,-1.8,0]}  rotation={[0, 0.2, 0.4]}  />
          </Canvas>
       </Suspense>
     );
 }
 
-function Login(){
+function Login({IsLogin,setIsLogin}){
     return(<div className={`${Style.Login} ${Style.Defaul}`}>
         <div>
             <div className={Style.Tite}>
@@ -133,7 +149,7 @@ function Login(){
                     </div>
 
                     <div className={Style.Input_No_account}>
-                        <p>Không có tài khoản?<a  >Đăng Kí</a></p>
+                        <p>Không có tài khoản?<button  onClick={() => setIsLogin(!IsLogin)}  >Đăng Kí</button></p>
                     </div>
 
          
@@ -143,7 +159,7 @@ function Login(){
      </div>)
 }
 
-function Sign_in(){
+function Sign_in({IsLogin,setIsLogin}){
     return(
         <div className={`${Style.Login} ${Style.Defaul}`}>
         <div>
@@ -182,7 +198,7 @@ function Sign_in(){
                     </div>
 
                     <div className={Style.Input_No_account}>
-                        <p>Đã Có Tài Khoản ? <a href="/" >Đăng Nhập</a></p>
+                        <p>Đã Có Tài Khoản ? <button   onClick={() => setIsLogin(!IsLogin)}  >Đăng Nhập</button></p>
                     </div>
 
          
@@ -195,12 +211,10 @@ function Sign_in(){
 
 export default function Login_Register() {
     
-    const[IsLogin,setIsLogin] = useState(false);
+    const[IsLogin,setIsLogin] = useState(true);
 
        
-    useEffect(() => {
-        setIsLogin(false); 
-    }, []);
+
 
 
   return (
@@ -208,20 +222,20 @@ export default function Login_Register() {
           
         <div className={Style.Login_Register_Conten}>
            <div className={`${Style.Login_Register_Conten_Login} ${Style.Defaul_Layout}`} >
-                <div style={{   transform: `translateX(${IsLogin ? "100vw" : "0"})`}} >
-                    <Login/>
+                <div style={{  clipPath: IsLogin ? "inset(0 0 0 0)" : "inset(0 0 0 100%)"}} >
+                    <Login IsLogin={IsLogin} setIsLogin={setIsLogin} />
                 </div>
                 <div className={Style.Login_Register_KhoangTrong} >
-                    cc
+                
                 </div>
-                <div style={{ transform: `translateX(${IsLogin ? "0" : "100vw" })`}} >
-                    <Sign_in/>
+                <div style={{ clipPath: IsLogin ?"inset(0 0 0 100%)" :"inset(0 0 0 0)" }} >
+                    <Sign_in IsLogin={IsLogin} setIsLogin={setIsLogin} />
                 </div>
                 
             </div>
         </div>
         <div className={Style.Login_Register_Canvas}>
-             <Canvas_Three_Js/>
+             <Canvas_Three_Js isLogin={IsLogin}/>
         </div>
 
  
