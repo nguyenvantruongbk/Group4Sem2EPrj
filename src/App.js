@@ -13,9 +13,9 @@ import Menu from "./page/Menu/Menu";
 //Layout
 import Default_Layout from "./components/Layout/Default_Layout/Default_Layout";
 import Admin_Layout from "./components/Layout/Admin_Layout/Admin_Layout";
-import Login_Register from "./page/Login_Register/Login_Register";
 import ProductDetails from "./page/ProductDetail/Product_Detail";
 import Slider_Layout from "./components/Layout/Slider_Layout/Slider_Layout";
+import Login_Register from "./page/Login_Register/Login_Register";
 
 function App() {
 
@@ -23,15 +23,18 @@ function App() {
 
 
   return (
-    
-    <Router>
-      <div className="App">
-        <Routes>
-           {/* Trang Binh Thuong */}
-            <Route path="/" element={<Default_Layout><Home/></Default_Layout>} />
-            <Route path="/about_us" element={<Default_Layout><About_us/></Default_Layout>} />
-
-            {/* KhachHang */}
+    <ContextProvider >
+      <Router>
+        <div className="App">
+          <Routes>
+            {/* Trang Binh Thuong */}
+              <Route path="/" element={<Default_Layout><Home/></Default_Layout>} />
+              <Route path="/about_us" element={<Default_Layout><About_us/></Default_Layout>} />
+              <Route path="/menu" element={<Default_Layout><Menu /></Default_Layout>} />
+              <Route path="/cart" element={<Default_Layout><Cart/></Default_Layout>} />
+              <Route path="/product/:id" element={<Slider_Layout> <ProductDetails /></Slider_Layout>} />
+              <Route path="/login_register" element={<Login_Register/>} />
+              {/* KhachHang */}
 
 
 
