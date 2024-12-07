@@ -61,7 +61,8 @@
     width:25vw;
    height: 50px;
    position: relative;
-   margin: 30px 0 10px 0;
+   margin: 30px 0 20px 0;
+   color:  rgb(14, 7, 4);
   
 
 }
@@ -75,7 +76,10 @@
     transition: 300ms;
 }
 
-
+.Input .Input_error{
+    color: red;
+    font-size: 0.9rem;
+}
 
 
 
@@ -85,7 +89,7 @@
     border: none;
     outline: none;
     border-bottom: 2px solid white;
-    color: aliceblue;
+    color: rgb(85, 87, 88);
     font-size: 1rem;
 }
 

@@ -34,7 +34,7 @@ function App() {
               <Route path="/about_us" element={<Default_Layout><About_us/></Default_Layout>} />
               <Route path="/menu" element={<Default_Layout><Menu /></Default_Layout>} />
               <Route path="/cart" element={<Default_Layout><Cart/></Default_Layout>} />
-              <Route path="/login_register" element={<Login_Register/>} />
+              <Route path="/login_register" element={<Slider_Layout><Login_Register/></Slider_Layout>} />
               <Route path="/product/:id" element={<Slider_Layout> <ProductDetails /></Slider_Layout>} />
               <Route path="/contact" element={<Contact/>} />
               {/* KhachHang */}

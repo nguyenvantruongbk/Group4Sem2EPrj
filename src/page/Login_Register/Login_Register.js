@@ -5,6 +5,13 @@ import Style from './Login_Register.module.css';
 import { Mesh } from "three";
 import { EXRLoader } from "three/examples/jsm/Addons.js";
 import { a, useSpring } from "@react-spring/three";
+
+
+
+import Context from "../../Context/Context";
+import { useNavigate } from "react-router-dom";
+
+
 //THREE REACT
 
 function SmoothCamera({ isLogin }) {
@@ -119,6 +126,50 @@ function Canvas_Three_Js({ isLogin }){
 }
 
 function Login({IsLogin,setIsLogin}){
+
+    const {token,saveToken} =useContext(Context)
+    const [username,setUsername] = useState('');
+    const [password,setPassword] =  useState('');
+    const[error,setError]  = useState('')
+    const navigate = useNavigate();
+    const data ={
+        username:username,
+        password:password,
+    }
+
+    const handleSubmit = async(e)=>{
+        e.preventDefault();
+
+        try{
+                const response = await fetch('http://localhost:8082/user/login',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                    },
+                    body:JSON.stringify(data)
+
+                })
+                
+                if (response.ok){
+                    const responseData = await response.json(); // Parse phản hồi JSON
+                    const { token } = responseData; // Lấy token từ phản hồi
+                    if (token==null) {return}
+                    saveToken(token); // Lưu token vào Context hoặc localStorage nếu cần
+                    navigate('/'); // Chuyển hướng đến trang Home
+                    
+                }else{
+                    const errorData = await response.json();
+                    setError(errorData.message||"Sai tên Tài Khoản Hoặc Mật Khẩu");
+                }
+
+
+            
+        }catch(error){
+            setError('Sai Tên Đăng Nhập Hoặc Mật khẩu');
+        }
+    }
+
+
     return(<div className={`${Style.Login} ${Style.Defaul}`}>
         <div>
             <div className={Style.Tite}>
@@ -127,17 +178,17 @@ function Login({IsLogin,setIsLogin}){
                     <div className={Style.Input}>
 
                         <span className={Style.Input_Icon} ><i class="bi bi-envelope-check-fill"></i></span>
-                        <input  type="email" />
-                        <label>Email</label>
-                      
+                        <input onChange={(e)=>setUsername(e.target.value)} type="text" />
+                        <label>Tên Đăng Nhập</label>
+                 
                     </div>
                     
                     <div className={Style.Input}>
 
                         <span className={Style.Input_Icon} ><i class="bi bi-lock-fill"></i></span>
-                        <input type="password"  />
+                        <input  type="password" onChange={(e)=>setPassword(e.target.value)}  />
                         <label>Mật Khẩu</label>
-
+                        {error && <p className={Style.Input_error}>{error}</p>}
                     </div>
                     <div className={Style.Remember}>
                         <div><input type="checkbox"/>Nhớ Tôi</div>
@@ -145,7 +196,7 @@ function Login({IsLogin,setIsLogin}){
                     </div>
                     
                     <div className={Style.Input_Button}>
-                        <button>Đăng Nhập</button>
+                        <button onClick={handleSubmit}>Đăng Nhập</button>
                     </div>
 
                     <div className={Style.Input_No_account}>
@@ -160,6 +211,59 @@ function Login({IsLogin,setIsLogin}){
 }
 
 function Sign_in({IsLogin,setIsLogin}){
+
+    const [username,setUsername] = useState('');
+    const [password,setPassword] =  useState('');
+    const [confirmpassword,setConfirmPassword] =  useState('');
+    const[error,setError]  = useState('')
+
+    const handleSubmit = async(e)=>{
+        e.preventDefault();
+        if (password !== confirmpassword){
+            setError("Mật Khẩu Không Khớp ")
+            return;
+        }
+
+
+        const data ={
+            username:username,
+            password:password,
+        }
+
+        try{
+
+            const response = await fetch('http://localhost:8082/user/register',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                },
+                body:JSON.stringify(data)
+            })
+
+            if (response.ok){
+                alert('Đăng Kí Thành Công');
+                setIsLogin(true)
+            }else{
+                const errorData = await response.json();
+                setError(errorData.message||"Đã có lỗi xảy ra!");
+            }
+            
+
+        }catch(error){
+            setError('Lỗi kết nối đến máy chủ!');
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
     return(
         <div className={`${Style.Login} ${Style.Defaul}`}>
         <div>
@@ -169,24 +273,24 @@ function Sign_in({IsLogin,setIsLogin}){
                     <div className={Style.Input}>
 
                         <span className={Style.Input_Icon} ><i class="bi bi-envelope-check-fill"></i></span>
-                        <input  type="email" />
-                        <label>Email</label>
+                        <input onChange={(e)=>setUsername(e.target.value)}  type="text" />
+                        <label>Tên Đăng Nhập</label>
                       
                     </div>
                     
                     <div className={Style.Input}>
 
                         <span className={Style.Input_Icon} ><i class="bi bi-lock-fill"></i></span>
-                        <input type="password"  />
+                        <input value={password} onChange={(e)=>setPassword(e.target.value)}  type="password"  />
                         <label>Mật Khẩu</label>
 
                     </div>
                     <div className={Style.Input}>
 
                         <span className={Style.Input_Icon} ><i class="bi bi-lock-fill"></i></span>
-                        <input type="password"  />
+                        <input value={confirmpassword} onChange={(e)=>setConfirmPassword(e.target.value)} type="password"  />
                         <label>Nhập Lại Mật Khẩu</label>
-
+                        {error && <p className={Style.Input_error}>{error}</p>}
                     </div>
                     <div className={Style.Remember}>
                         <div><input type="checkbox"/>Nhớ Tôi</div>
@@ -194,7 +298,7 @@ function Sign_in({IsLogin,setIsLogin}){
                     </div>
                     
                     <div className={Style.Input_Button}>
-                        <button>Đăng Kí</button>
+                        <button onClick={handleSubmit}  >Đăng Kí </button>
                     </div>
 
                     <div className={Style.Input_No_account}>

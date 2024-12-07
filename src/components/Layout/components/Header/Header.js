@@ -7,11 +7,16 @@ import style from './Header.module.css'
 import Context from '../../../../Context/Context';
 import { useContext } from 'react';
 
+
 function HeaderTikTok() {
     
 
     const {cart,setCart} = useContext(Context)
-
+    const {token,removeToken} =useContext(Context)
+    
+    const handleSubmit = async(e)=>{
+        removeToken()
+    }
 
 
     return (
@@ -48,30 +53,33 @@ function HeaderTikTok() {
                   <li className={style.Header_You} >
                     <img src="./image/anhdaidien.jpg" alt="Ảnh Đại diện" />
                     <div className={style.Header_Your_settings} >
-                        <ul style={{ display: 'none' }}>
-                          <li>
-                            <p><i class="bi bi-person-circle"></i> Xem Hồ Sơ</p>
-                          </li>
-                          <li>
-                            <p><i class="bi bi-gear"></i>Cài Đặt</p>
-                          </li>
-                          <li>
-                            <p><i class="bi bi-sliders2"></i>Tiếng Việt</p>
-                          </li>
-                          <li>
-                            <p><i class="bi bi-box-arrow-left"></i> Đăng Xuất</p>
-                          </li>
-                         
-                        </ul>
-                        <ul style={{ display: 'block' }}>
-                          <li>
-                            <p><a href='/login_register'><i  class="bi bi-box-arrow-right"></i>Đăng Nhập</a></p>
-                          </li>
-                          <li>
-                            <p><a href='/login_register'><i class="bi bi-person-plus"></i>Đăng Kí</a></p>
-                          </li>
-                          
-                        </ul>
+                      <ul style={{ display: token ? 'block' : 'none' }}>
+                        <li>
+                          <p><i className="bi bi-person-circle"></i> Xem Hồ Sơ</p>
+                        </li>
+                        <li>
+                          <p><i className="bi bi-gear"></i> Cài Đặt</p>
+                        </li>
+                        <li>
+                          <p><i className="bi bi-sliders2"></i> Tiếng Việt</p>
+                        </li>
+                        <li>
+                          <p onClick={handleSubmit} ><i className="bi bi-box-arrow-left"></i> Đăng Xuất</p>
+                        </li>
+                      </ul>
+
+                      <ul style={{ display: token ? 'none' : 'block' }}>
+                        <li>
+                          <p>
+                            <a href="/login_register"><i className="bi bi-box-arrow-right"></i> Đăng Nhập</a>
+                          </p>
+                        </li>
+                        <li>
+                          <p>
+                            <a href="/login_register"><i className="bi bi-person-plus"></i> Đăng Kí</a>
+                          </p>
+                        </li>
+                      </ul>
                     </div>
                   </li>
                   
