@@ -17,7 +17,7 @@ const CoffeeMenu = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://dummyjson.com/products/category/beauty");
+        const response = await fetch("https://dummyjson.com/products/");
         const data = await response.json();
         const convertedProducts = data.products.map((product, index) => ({
           ...product,
