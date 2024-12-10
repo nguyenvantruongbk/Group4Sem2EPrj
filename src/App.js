@@ -20,6 +20,7 @@ import ProductDetails from "./page/ProductDetail/Product_Detail";
 import Slider_Layout from "./components/Layout/Slider_Layout/Slider_Layout";
 import UserList from "./page/User/UserList";
 import UpdateUser from "./page/User/UpdateUser";
+import BranchList from "./page/List_Base/BranchList";
 function App() {
 
   const [cart,setCart] = useState([]);
@@ -53,6 +54,7 @@ function App() {
 
               {/* GiamDoc */}
               <Route path="/owner" element={<Admin_Layout><Owner/></Admin_Layout>} />
+              <Route path="/list_base" element={<BranchList />} />
           </Routes>
         </div>
       </Router>
