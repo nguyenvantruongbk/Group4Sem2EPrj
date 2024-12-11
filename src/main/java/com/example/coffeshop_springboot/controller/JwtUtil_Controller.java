@@ -20,8 +20,8 @@ public class JwtUtil_Controller {
     public boolean check_token(@RequestBody Token token){
         try {
             return jwtUtil.isTokenValid(token);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Exception ec) {
+            throw new RuntimeException(ec);
         }
     }
 
