@@ -30,9 +30,7 @@ public class Chain_Controller {
 
     @PostMapping("/create/{user_id}")
     public ResponseEntity<?> create_chain(@RequestBody Chain chain,@PathVariable Long user_id){
-
         try {
-
             Optional<User> user = userRepository.findByUserId(user_id);
             if (!user.isPresent()){
                 return new ResponseEntity<>("Chưa Thêm Quản Lí", HttpStatus.BAD_REQUEST);

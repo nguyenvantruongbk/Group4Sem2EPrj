@@ -39,6 +39,7 @@
                 claims.put("username", userAuth.getUsername());
 
 
+
                 Token token = new Token();
                 token.setToken(Jwts.builder()
                         .setClaims(claims)  // Đặt các claims (auth_id và username)
