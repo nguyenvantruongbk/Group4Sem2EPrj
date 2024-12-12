@@ -24,4 +24,36 @@ public class Menu {
 
     @Column(name = "date_available")
     private LocalDate dateAvailable;
+
+    public int getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(int menuId) {
+        this.menuId = menuId;
+    }
+
+    public Chain getChain() {
+        return chain;
+    }
+
+    public void setChain(Chain chain) {
+        this.chain = chain;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public LocalDate getDateAvailable() {
+        return dateAvailable;
+    }
+
+    public void setDateAvailable(LocalDate dateAvailable) {
+        this.dateAvailable = dateAvailable;
+    }
 }

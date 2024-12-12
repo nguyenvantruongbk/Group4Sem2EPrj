@@ -34,7 +34,14 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF protection
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/user/**", "/user_data/**","/token/**","/chain/**","/chain_sales/**").permitAll() // Public access
+                        .requestMatchers("/user/**",
+                                "/user_data/**",
+                                "/token/**","/chain/**",
+                                "/chain_sales/**",
+                                "/product/**",
+                                "/menu/**"
+
+                                ).permitAll() // Public access
                         .requestMatchers("/user_role/**").hasAuthority("MANAGER") // Requires MANAGER authority
                         .anyRequest().authenticated() // All other requests require authentication
                 )
