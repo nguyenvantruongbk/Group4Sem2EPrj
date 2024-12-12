@@ -21,6 +21,7 @@ import Slider_Layout from "./components/Layout/Slider_Layout/Slider_Layout";
 import UserList from "./page/User/UserList";
 import UpdateUser from "./page/User/UpdateUser";
 import BranchList from "./page/List_Base/BranchList";
+import SalesManagement from "./page/Revenue/revenue";
 function App() {
 
   const [cart,setCart] = useState([]);
@@ -40,7 +41,7 @@ function App() {
               <Route path="/product/:id" element={<Slider_Layout> <ProductDetails /></Slider_Layout>} />
               <Route path="/contact" element={<Contact/>} />
               <Route path="/user_list" element={<UserList />} />
-              <Route path="/update-user/:id" element={<Default_Layout><UpdateUser/></Default_Layout>} />
+              <Route path="/update_user" element={<Default_Layout><UpdateUser/></Default_Layout>} />
               {/* KhachHang */}
 
 
@@ -51,6 +52,7 @@ function App() {
 
               {/* QuanLi */}
 
+              <Route path="/revenue" element={<SalesManagement />} />
 
               {/* GiamDoc */}
               <Route path="/owner" element={<Admin_Layout><Owner/></Admin_Layout>} />

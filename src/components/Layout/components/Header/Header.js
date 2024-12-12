@@ -58,7 +58,7 @@ function HeaderTikTok() {
                           <p><i className="bi bi-person-circle"></i> Xem Hồ Sơ</p>
                         </li>
                         <li>
-                          <p><i className="bi bi-gear"></i> Cài Đặt</p>
+                          <a href='/update-user/'><p><i className="bi bi-gear"></i> Cài Đặt</p></a>
                         </li>
                         <li>
                           <p><i className="bi bi-sliders2"></i> Tiếng Việt</p>
