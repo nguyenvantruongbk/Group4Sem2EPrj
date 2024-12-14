@@ -12,8 +12,11 @@ const CoffeeMenu = () => {
   const [priceRange, setPriceRange] = useState([0, 100000]); // [minPrice, maxPrice]
   const [searchTitle, setSearchTitle] = useState("");
   const [availabilityStatus, setAvailabilityStatus] = useState("all");
+  const [selectedBranch, setSelectedBranch] = useState("all"); // Cơ sở được chọn
+  const [branches, setBranches] = useState(["all", "Base 1", "Base 2", "Base 3"]); // Danh sách cơ sở
 
   const itemsPerPage = 12;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -23,6 +26,7 @@ const CoffeeMenu = () => {
           ...product,
           price: product.price * exchangeRate,
           availabilityStatus: index % 2 === 0 ? "In Stock" : "Low Stock",
+          branch: `Base ${index % 3 + 1}`, // Giả sử phân bổ sản phẩm ngẫu nhiên cho các cơ sở
         }));
         setProducts(convertedProducts);
         setLoading(false);
@@ -35,6 +39,10 @@ const CoffeeMenu = () => {
     fetchData();
   }, []);
 
+  const handleProductAdded = (newProduct) => {
+    setProducts((prevProducts) => [...prevProducts, newProduct]);
+  };
+
   const filteredProducts = products.filter((product) => {
     const matchesBrand = selectedBrand === "all" || product.brand === selectedBrand;
     const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
@@ -42,7 +50,8 @@ const CoffeeMenu = () => {
       searchTitle === "" || product.title.toLowerCase().includes(searchTitle.toLowerCase());
     const matchesAvailability =
       availabilityStatus === "all" || product.availabilityStatus === availabilityStatus;
-    return matchesBrand && matchesPrice && matchesTitle && matchesAvailability;
+    const matchesBranch = selectedBranch === "all" || product.branch === selectedBranch;
+    return matchesBrand && matchesPrice && matchesTitle && matchesAvailability && matchesBranch;
   });
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
@@ -62,6 +71,26 @@ const CoffeeMenu = () => {
       <div className="row">
         {/* Bộ lọc */}
         <div className="col-3">
+          {/* Chọn cơ sở */}
+          <div className="mb-3">
+            <label htmlFor="branch-select" className="form-label">
+              Select Base:
+            </label>
+            <select
+              id="branch-select"
+              className="form-select"
+              value={selectedBranch}
+              onChange={(e) => setSelectedBranch(e.target.value)}
+            >
+              {branches.map((branch) => (
+                <option key={branch} value={branch}>
+                  {branch}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Bộ lọc */}
           <ProductFilter
             searchTitle={searchTitle}
             setSearchTitle={setSearchTitle}
@@ -86,22 +115,22 @@ const CoffeeMenu = () => {
           {/* Pagination */}
           {totalPages > 1 && (
             <nav>
-            <ul className="pagination justify-content-center">
-              {Array.from({ length: totalPages }, (_, index) => (
-                <li
-                  className={`page-item ${index + 1 === currentPage ? "active" : ""}`}
-                  key={index}
-                >
-                  <button
-                    className="page-link"
-                    onClick={() => handlePageChange(index + 1)}
+              <ul className="pagination justify-content-center">
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <li
+                    className={`page-item ${index + 1 === currentPage ? "active" : ""}`}
+                    key={index}
                   >
-                    {index + 1}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
+                    <button
+                      className="page-link"
+                      onClick={() => handlePageChange(index + 1)}
+                    >
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           )}
         </div>
       </div>

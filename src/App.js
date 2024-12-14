@@ -22,8 +22,9 @@ import UserList from "./page/User/UserList";
 import UpdateUser from "./page/User/UpdateUser";
 import BranchList from "./page/List_Base/BranchList";
 import SalesManagement from "./page/Revenue/revenue";
-import Payment from "./page/Payment/Payment";
+import Payment from "./page/Payment/payment";
 import AddBranch from "./page/List_Base/AddBranch";
+import AddProduct from "./page/Menu/Add_Product";
 function App() {
 
   const [cart,setCart] = useState([]);
@@ -41,7 +42,7 @@ function App() {
               <Route path="/cart" element={<Default_Layout><Cart/></Default_Layout>} />
               <Route path="/login_register" element={<Slider_Layout><Login_Register/></Slider_Layout>} />
               <Route path="/product/:id" element={<Slider_Layout> <ProductDetails /></Slider_Layout>} />
-              <Route path="/contact" element={<Default_Layout><Contact/></Default_Layout>} />
+              <Route path="/contact" element={<Contact/>} />
               <Route path="/user_list" element={<UserList />} />
               <Route path="/update_user" element={<Default_Layout><UpdateUser/></Default_Layout>} />
               <Route path="/payment" element={<Default_Layout><Payment/></Default_Layout>} />
@@ -60,8 +61,10 @@ function App() {
 
               {/* GiamDoc */}
               <Route path="/owner" element={<Admin_Layout><Owner/></Admin_Layout>} />
-              <Route path="/list_base" element={<Slider_Layout><BranchList /></Slider_Layout>} />
-              <Route path="/add-branch" element={<Slider_Layout><AddBranch /></Slider_Layout>} />
+              <Route path="/list_base" element={<BranchList />} />
+              <Route path="/add-branch" element={<AddBranch />} />
+              <Route path="/add_product" element={<AddProduct/>}/>
+
           </Routes>
         </div>
       </Router>
