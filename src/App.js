@@ -22,6 +22,7 @@ import UserList from "./page/User/UserList";
 import UpdateUser from "./page/User/UpdateUser";
 import BranchList from "./page/List_Base/BranchList";
 import SalesManagement from "./page/Revenue/revenue";
+import Payment from "./page/Payment/Payment";
 function App() {
 
   const [cart,setCart] = useState([]);
@@ -42,6 +43,8 @@ function App() {
               <Route path="/contact" element={<Contact/>} />
               <Route path="/user_list" element={<UserList />} />
               <Route path="/update_user" element={<Default_Layout><UpdateUser/></Default_Layout>} />
+              <Route path="/payment" element={<Default_Layout><Payment/></Default_Layout>} />
+
               {/* KhachHang */}
 
 

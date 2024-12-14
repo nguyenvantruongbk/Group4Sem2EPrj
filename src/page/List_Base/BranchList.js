@@ -1,10 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
 
 const BranchList = () => {
   const [branches, setBranches] = useState([]);
-  const [editId, setEditId] = useState(null); // ID của cơ sở đang chỉnh sửa
-  const [formData, setFormData] = useState({}); // Lưu thông tin chỉnh sửa
+  const [editId, setEditId] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    location: '',
+    contact_info: '',
+    img: '',
+  });
 
   // Fake dữ liệu ban đầu
   useEffect(() => {
@@ -27,37 +31,39 @@ const BranchList = () => {
     setBranches(fakeBranches);
   }, []);
 
-  // Hàm kích hoạt chế độ chỉnh sửa
+  // Kích hoạt chỉnh sửa
   const handleEdit = (branch) => {
     setEditId(branch.id);
-    setFormData(branch); // Gán dữ liệu của cơ sở cần chỉnh sửa
+    setFormData({ ...branch });
   };
 
-  // Hàm lưu chỉnh sửa
+  // Lưu chỉnh sửa
   const handleSave = () => {
     setBranches(
       branches.map((branch) =>
         branch.id === editId ? { ...branch, ...formData } : branch
       )
     );
-    setEditId(null); // Thoát chế độ chỉnh sửa
+    setEditId(null);
+    setFormData({ name: '', location: '', contact_info: '', img: '' });
   };
 
-  // Hàm hủy chỉnh sửa
+  // Hủy chỉnh sửa
   const handleCancel = () => {
     setEditId(null);
-    setFormData({});
+    setFormData({ name: '', location: '', contact_info: '', img: '' });
   };
 
-  // Hàm xóa cơ sở
+  // Xóa cơ sở
   const handleDeleteBranch = (branchId) => {
     setBranches(branches.filter((branch) => branch.id !== branchId));
   };
 
-  // Hàm thêm cơ sở mới
+  // Thêm cơ sở mới
   const handleAddBranch = () => {
+    const newId = branches.length > 0 ? Math.max(...branches.map(b => b.id)) + 1 : 1;
     const newBranch = {
-      id: branches.length + 1, // Tạo ID tạm
+      id: newId,
       name: 'Cơ sở mới',
       location: 'Địa chỉ mới',
       contact_info: '0123456789',
@@ -75,6 +81,7 @@ const BranchList = () => {
       <table className="table table-striped">
         <thead>
           <tr>
+            <th>ID</th>
             <th>Tên</th>
             <th>Địa điểm</th>
             <th>Liên hệ</th>
@@ -87,6 +94,7 @@ const BranchList = () => {
             <tr key={branch.id}>
               {editId === branch.id ? (
                 <>
+                  <td>{branch.id}</td>
                   <td>
                     <input
                       type="text"
@@ -137,16 +145,14 @@ const BranchList = () => {
                     >
                       Lưu
                     </button>
-                    <button
-                      className="btn btn-secondary"
-                      onClick={handleCancel}
-                    >
+                    <button className="btn btn-secondary" onClick={handleCancel}>
                       Hủy
                     </button>
                   </td>
                 </>
               ) : (
                 <>
+                  <td>{branch.id}</td>
                   <td>{branch.name}</td>
                   <td>{branch.location}</td>
                   <td>{branch.contact_info}</td>
@@ -182,6 +188,7 @@ const BranchList = () => {
 };
 
 export default BranchList;
+
 
 
 // ================================================== ĐÃ CÓ BE VÀ DB =================================================================
