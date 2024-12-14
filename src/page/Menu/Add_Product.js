@@ -15,13 +15,34 @@ const AddProduct = () => {
   const [previewData, setPreviewData] = useState(null);
 
   useEffect(() => {
-    // Dữ liệu giả lập các cơ sở
-    const fakeBranches = [
-      { id: 1, name: 'Cơ sở Hà Nội' },
-      { id: 2, name: 'Cơ sở TP HCM' },
-      { id: 3, name: 'Cơ sở Đà Nẵng' },
-    ];
-    setBranches(fakeBranches);
+    const fetchBranches = async () => {
+      try {
+        const response = await fetch('http://localhost:8082/chain/get_all', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({}), // Gửi dữ liệu nếu cần thiết
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setBranches(
+            data.map((item) => ({
+              id: item.chain_id,
+              name: item.name,
+
+            }))
+          );
+        } else {
+          console.error('Lỗi khi lấy dữ liệu từ server');
+        }
+      } catch (error) {
+        console.error('Lỗi kết nối:', error);
+      }
+    };
+
+    fetchBranches();
   }, []);
 
   const handleSubmit = (e) => {

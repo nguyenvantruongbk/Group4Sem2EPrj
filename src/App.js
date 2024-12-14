@@ -61,7 +61,7 @@ function App() {
 
               {/* GiamDoc */}
               <Route path="/owner" element={<Admin_Layout><Owner/></Admin_Layout>} />
-              <Route path="/list_base" element={<BranchList />} />
+              <Route path="/list_base" element={<Slider_Layout><BranchList/></Slider_Layout>} />
               <Route path="/add-branch" element={<AddBranch />} />
               <Route path="/add_product" element={<AddProduct/>}/>
 
