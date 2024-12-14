@@ -313,12 +313,12 @@ const Cart = () => {
             </div>
             <div className="col-4 text-start d-flex align-items-center">
               <img
-                src={item.images}
+                src={item.img}
                 alt={item.title}
                 className="me-3"
                 style={{ width: '60px', height: '60px', objectFit: 'cover' }}
               />
-              <span>{item.title}</span>
+              <span>{item.name}</span>
             </div>
             <div className="col-2">{item.price.toLocaleString()} VND</div>
             <div className="col-2">

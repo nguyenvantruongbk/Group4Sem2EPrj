@@ -10,12 +10,12 @@
 function Add_To_Card({ props, cart, setCart }){
 
       // Kiểm tra xem item đã tồn tại trong giỏ hàng chưa
-      const existingItem = cart.find(cartItem => cartItem.id === props.id);
+      const existingItem = cart.find(cartItem => cartItem.productId === props.productId);
     
       if (existingItem) {
           // Nếu đã tồn tại, cập nhật số lượng
         //   const updatedCart = cart.map(cartItem =>
-        //       cartItem.id === props.id
+        //       cartItem.productId === props.productId
         //           ? { ...cartItem, quantity: cartItem.quantity + 1 }
         //           : cartItem
         //   );
@@ -38,8 +38,8 @@ function Change_quantity({ props, quantity, cart, setCart }) {
 
     // Duyệt qua từng phần tử trong giỏ hàng (cart)
     const updatedCart = cart.map(cartItem => {
-        // Kiểm tra nếu ID của phần tử trong giỏ hàng trùng với ID của sản phẩm cần cập nhật
-        if (cartItem.id === props.id) {
+        // Kiểm tra nếu productId của phần tử trong giỏ hàng trùng với productId của sản phẩm cần cập nhật
+        if (cartItem.productId === props.productId) {
             // Nếu trùng, tạo một đối tượng mới với số lượng được cập nhật
             return { ...cartItem, quantity: numericQuantity };  // Cập nhật số lượng mới
         }
@@ -55,7 +55,7 @@ function Delete_Card({ props, cart, setCart }){
   
     
     //  Lọc ra những sản phẩm không trùng với sản phẩm cần xóa
-     const updatedCart = cart.filter(cartItem => cartItem.id !== props.id);
+     const updatedCart = cart.filter(cartItem => cartItem.productId !== props.productId);
 
      // Cập nhật lại giỏ hàng sau khi xóa sản phẩm
      setCart(updatedCart);

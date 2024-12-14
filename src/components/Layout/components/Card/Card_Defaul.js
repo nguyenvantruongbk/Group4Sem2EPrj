@@ -25,59 +25,21 @@ function Card_Defaul(props) {
     return ( 
     <div className={Style.Card_Defaul} >
         <div className={Style.Card_Defaul_Img} >
-            <img src={iteam.thumbnail}/>
+            <img src={iteam.img}/>
         </div>
         <div className={Style.Card_Defaul_Conten} >
             <div className={Style.Card_Defaul_Conten_Title}>
-                <p>{iteam.title}</p>
+                <p>{iteam.name}</p>
             </div>
             <div className={Style.Card_Defaul_Conten_Describe}>
                 <p>{iteam.description}</p>
             </div>
-            <div className={Style.Card_Defaul_Conten_Star}>
-                {
-                    [...Array(5)].map((_, i) => (
-                        i < Math.floor(iteam.rating) ? (
-                            <i key={i} className="bi bi-star-fill"></i>
-                        ) : (
-                            <i key={i} className="bi bi-star"></i>
-                        )
-                    ))
-                }
-              
-            </div>
+          
             <div className={Style.Card_Defaul_Conten_Size_Price}>
-                <div className={Style.Card_Defaul_Conten_Size_Price_Size} >
-               
-                    <div key="minimal-radio" style={{ display: 'flex', gap: '10px' }}>
-                        
-                        <p>Size:</p>
-                        <Form.Check
-                           className={Style.Input1}
-                            name={`group1` + iteam.id}
-                            type="radio"
-                            id="radio-1"
-                            defaultChecked
-                            style={{ margin: 0 }} // Loại bỏ khoảng cách
-                        />
-                        <Form.Check
-                            className={Style.Input2}
-                            name={`group1` + iteam.id}
-                            type="radio"
-                            id="radio-2"
-                            style={{ margin: 0 }}
-                        />
-                        <Form.Check
-                            className={Style.Input3}
-                            name={`group1` + iteam.id}
-                            type="radio"
-                            id="radio-3"
-                            style={{ margin: 0 }}
-                        />
-                    </div>
-            
-                </div>
+            <p>Price:</p>
+                     
                 <div className={Style.Card_Defaul_Conten_Size_Price_Price} >
+
                     <p>{iteam.price}</p>
                 </div>
             </div>

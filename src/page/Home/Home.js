@@ -211,18 +211,36 @@ function List_Menu(){
 
 function List_Card(){
     
-    const [list,setList] = useState([]);
-    function callData(){
-        const url = `https://dummyjson.com/products?limit=6`;
-        fetch(url).then(rs=>rs.json())
-        .then(data=>{
-            setList(data.products);
-        });
-    }
-    useEffect(function(){
-        callData();
-    },[]);
+    const [list, setList] = useState([]);
 
+    // Function to fetch data from your local server
+    async function callData() {
+        try {
+            const response = await fetch('http://localhost:8082/product', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+           
+                setList(data); // Assuming the response contains a 'products' field
+            } else {
+                console.error('Error fetching data from server');
+            }
+        } catch (error) {
+            console.error('Connection error:', error);
+        }
+    }
+
+    // Call data on component mount
+    useEffect(() => {
+        callData();
+    }, []);
+
+    console.log(list)
   
     return(
        <div className={styles.List_Card}  >
@@ -235,12 +253,15 @@ function List_Card(){
 
             
             <Row className='g-2'>
-                {
-                    list.map((e,i)=>{
-                        return <Col xs={6}  sm={6}  md={4} key={i}  > <Card_Defaul iteam={e} /></Col>
-                    })
-                }
+                {list.slice(0, 6).map((e, i) => (
                 
+                        <Col xs={6} sm={6} md={4} key={i}>
+                            <Card_Defaul iteam={e} />
+                        </Col>
+                    
+
+                ))}
+                    
             </Row>
             </div>
         

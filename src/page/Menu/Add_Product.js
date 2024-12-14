@@ -7,7 +7,7 @@ const AddProduct = () => {
     price: '',
     stock: '',
     img: '',
-    branch_id: '', // Cơ sở được chọn
+    chian_id: '', // Cơ sở được chọn
   });
 
   const [branches, setBranches] = useState([]);
@@ -45,12 +45,48 @@ const AddProduct = () => {
     fetchBranches();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+  
     // Hiển thị xem trước dữ liệu sản phẩm
     setPreviewData(formData);
+  
+   
   };
 
+
+  const Sumit_Produtct =async(e)=>{
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:8082/product/new', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData), // Đẩy dữ liệu sản phẩm lên API
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        alert('Sản phẩm đã được tạo thành công!');
+  
+        // Reset form sau khi thêm sản phẩm
+        setFormData({
+          name: '',
+          description: '',
+          price: '',
+          stock: '',
+          img: '',
+          chian_id: '',
+        });
+        setPreviewData(null);
+      } else {
+        console.error('Lỗi khi tạo sản phẩm');
+      }
+    } catch (error) {
+      console.error('Lỗi kết nối:', error);
+    }
+  }
   const handleUpdateToMenu = () => {
     // Thêm sản phẩm vào menu giả lập
     const newProduct = {
@@ -67,7 +103,7 @@ const AddProduct = () => {
       price: '',
       stock: '',
       img: '',
-      branch_id: '',
+      chian_id: '',
     });
     setPreviewData(null);
   };
@@ -135,9 +171,9 @@ const AddProduct = () => {
           <label className="form-label">Chọn cơ sở</label>
           <select
             className="form-select"
-            value={formData.branch_id}
+            value={formData.chian_id}
             onChange={(e) =>
-              setFormData({ ...formData, branch_id: e.target.value })
+              setFormData({ ...formData, chian_id: e.target.value })
             }
             required
           >
@@ -192,7 +228,7 @@ const AddProduct = () => {
                 <td>
                   {
                     branches.find(
-                      (branch) => branch.id.toString() === previewData.branch_id
+                      (branch) => branch.id.toString() === previewData.chian_id
                     )?.name
                   }
                 </td>
@@ -202,7 +238,7 @@ const AddProduct = () => {
           <div className="text-center mt-3">
             <button
               className="btn btn-success"
-              onClick={handleUpdateToMenu}
+              onClick={Sumit_Produtct}
             >
               Cập nhật sản phẩm vào menu
             </button>
@@ -231,7 +267,7 @@ const AddProduct = () => {
                   <td>
                     {
                       branches.find(
-                        (branch) => branch.id.toString() === product.branch_id
+                        (branch) => branch.id.toString() === product.chian_id
                       )?.name
                     }
                   </td>

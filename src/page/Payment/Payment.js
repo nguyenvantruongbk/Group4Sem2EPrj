@@ -42,14 +42,14 @@ const CheckoutPage = () => {
         <div className="card-header">Giỏ hàng</div>
         <div className="card-body">
           {cartItems.map((item) => (
-            <div key={item.id} className="d-flex align-items-center mb-3">
+            <div key={item.productId} className="d-flex align-items-center mb-3">
               <img
-                src={item.images}
+                src={item.img}
                 alt={item.title}
                 style={{ width: '80px', height: '80px', objectFit: 'cover' }}
               />
               <div className="ms-3 flex-grow-1">
-                <h5 className="mb-1">{item.title}</h5>
+                <h5 className="mb-1">{item.name}</h5>
                 <p className="mb-1 text-muted">{item.price.toLocaleString()} VND</p>
                 <span className="text-muted">Số lượng: {item.quantity}</span>
               </div>
