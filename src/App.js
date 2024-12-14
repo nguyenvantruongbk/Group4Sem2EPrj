@@ -16,7 +16,7 @@ import Menu from "./page/Menu/Menu";
 import Default_Layout from "./components/Layout/Default_Layout/Default_Layout";
 import Admin_Layout from "./components/Layout/Admin_Layout/Admin_Layout";
 import Login_Register from "./page/Login_Register/Login_Register";
-import ProductDetails from "./page/ProductDetail/Product_Detail";
+// import ProductDetails from "./page/ProductDetail/Product_Detail";
 import Slider_Layout from "./components/Layout/Slider_Layout/Slider_Layout";
 import UserList from "./page/User/UserList";
 import UpdateUser from "./page/User/UpdateUser";
@@ -25,6 +25,7 @@ import SalesManagement from "./page/Revenue/revenue";
 import Payment from "./page/Payment/payment";
 import AddBranch from "./page/List_Base/AddBranch";
 import AddProduct from "./page/Menu/Add_Product";
+import ProductDetail from "./page/ProductDetail/Product_Detail";
 function App() {
 
   const [cart,setCart] = useState([]);
@@ -41,7 +42,9 @@ function App() {
               <Route path="/menu" element={<Default_Layout><Menu /></Default_Layout>} />
               <Route path="/cart" element={<Default_Layout><Cart/></Default_Layout>} />
               <Route path="/login_register" element={<Slider_Layout><Login_Register/></Slider_Layout>} />
-              <Route path="/product/:id" element={<Default_Layout> <ProductDetails /></Default_Layout>} />
+              {/* <Route path="/product/:id" element={<Default_Layout> <ProductDetails /></Default_Layout>} /> */}
+              <Route path="/product/:id" component={ProductDetail} />
+
               <Route path="/contact" element={<Slider_Layout><Contact/></Slider_Layout>} />
               <Route path="/user_list" element={<UserList />} />
               <Route path="/update_user" element={<Default_Layout><UpdateUser/></Default_Layout>} />
