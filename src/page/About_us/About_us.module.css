@@ -10,7 +10,7 @@
 /* Đặt toàn bộ container ở chế độ Flexbox */
 .container {
     display: flex;
-    height: 110vh; /* Chiếm toàn bộ chiều cao màn hình */
+    height: 100vh; /* Chiếm toàn bộ chiều cao màn hình */
     width: 100%;
   }
   
@@ -125,7 +125,7 @@
 
 .leftimage img {
   width: 800px; /* Size of the left image */
-  height: 549px;
+  height: 1120px;
 }
 
 .rightimages {

@@ -41,8 +41,8 @@ function App() {
               <Route path="/menu" element={<Default_Layout><Menu /></Default_Layout>} />
               <Route path="/cart" element={<Default_Layout><Cart/></Default_Layout>} />
               <Route path="/login_register" element={<Slider_Layout><Login_Register/></Slider_Layout>} />
-              <Route path="/product/:id" element={<Slider_Layout> <ProductDetails /></Slider_Layout>} />
-              <Route path="/contact" element={<Contact/>} />
+              <Route path="/product/:id" element={<Default_Layout> <ProductDetails /></Default_Layout>} />
+              <Route path="/contact" element={<Slider_Layout><Contact/></Slider_Layout>} />
               <Route path="/user_list" element={<UserList />} />
               <Route path="/update_user" element={<Default_Layout><UpdateUser/></Default_Layout>} />
               <Route path="/payment" element={<Default_Layout><Payment/></Default_Layout>} />
