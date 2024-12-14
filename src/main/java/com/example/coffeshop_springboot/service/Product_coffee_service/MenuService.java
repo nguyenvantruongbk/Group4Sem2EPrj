@@ -39,8 +39,6 @@ public class MenuService {
         Menu menu = new Menu();
         menu.setChain(chain);
         menu.setProduct(product);
-
-
         return menuRepository.save(menu);
     }
 

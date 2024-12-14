@@ -1,6 +1,7 @@
 package com.example.coffeshop_springboot.controller.Product_coffee_controller;
 
 
+import com.example.coffeshop_springboot.dto.ProductDTO;
 import com.example.coffeshop_springboot.entity.Product_coffee_entity.Product;
 import com.example.coffeshop_springboot.service.Product_coffee_service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,17 @@ public class ProductController {
     @PostMapping
     public Product createProduct(@RequestBody Product product) {
         return productService.saveProduct(product);
+    }
+
+    @PostMapping("/new")
+    public Product create_new_Product(@RequestBody ProductDTO productDTO) {
+        try{
+            return productService.Create_product(productDTO);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @GetMapping("/{id}")
