@@ -4,7 +4,9 @@ package com.example.coffeshop_springboot.controller.Chain_coffee_controller;
 import com.example.coffeshop_springboot.dto.ChainDTO;
 import com.example.coffeshop_springboot.entity.Chain_coffee_entity.Chain;
 import com.example.coffeshop_springboot.entity.User;
+import com.example.coffeshop_springboot.entity.UserAuth;
 import com.example.coffeshop_springboot.repository.Chain_coffee_repository.Chain_Repository;
+import com.example.coffeshop_springboot.repository.UserAuth_Repository;
 import com.example.coffeshop_springboot.repository.User_Repository;
 import com.example.coffeshop_springboot.service.Chain_coffee_service.Chain_Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class Chain_Controller {
     private User_Repository userRepository;
 
     @Autowired
+    private UserAuth_Repository userAuthRepository;
+
+    @Autowired
     private Chain_Repository chainRepository;
 
     @PostMapping("/create/{user_id}")
@@ -37,6 +42,27 @@ public class Chain_Controller {
             }
 
             Chain new_chain = chainService.create_chain(chain,user.get());
+            return new ResponseEntity<>(new_chain, HttpStatus.CREATED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @PostMapping("/create_new/{name}")
+    public ResponseEntity<?> create_new_chain(@RequestBody Chain chain,@PathVariable String name){
+        try {
+            Optional<UserAuth> userAuth = userAuthRepository.findByUsername(name);
+
+
+
+
+
+            if (!userAuth.isPresent()){
+                return new ResponseEntity<>("Tài Khoản Ko tồn Tại", HttpStatus.BAD_REQUEST);
+            }
+
+            Chain new_chain = chainService.create_chain(chain,userAuth.get().getUser());
             return new ResponseEntity<>(new_chain, HttpStatus.CREATED);
         } catch (Exception e) {
             throw new RuntimeException(e);

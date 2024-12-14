@@ -16,4 +16,28 @@ public class PaymentMethod {
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    public int getPaymentMethodId() {
+        return paymentMethodId;
+    }
+
+    public void setPaymentMethodId(int paymentMethodId) {
+        this.paymentMethodId = paymentMethodId;
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "order")
+@Table(name = "`order`")
 public class Order {
 
     @Id
@@ -15,9 +15,6 @@ public class Order {
     @Column(name = "order_id")
     private int orderId;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private User User;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -33,9 +30,58 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @ManyToOne
     @JoinColumn(name = "payment_method_id", nullable = false)
     private PaymentMethod paymentMethod;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Chain getChain() {
+        return chain;
+    }
+
+    public void setChain(Chain chain) {
+        this.chain = chain;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
 }

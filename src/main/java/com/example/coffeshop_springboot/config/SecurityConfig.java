@@ -39,7 +39,8 @@ public class SecurityConfig {
                                 "/token/**","/chain/**",
                                 "/chain_sales/**",
                                 "/product/**",
-                                "/menu/**"
+                                "/menu/**",
+                                "/orders/**"
 
                                 ).permitAll() // Public access
                         .requestMatchers("/user_role/**").hasAuthority("MANAGER") // Requires MANAGER authority
