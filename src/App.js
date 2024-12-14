@@ -23,6 +23,7 @@ import UpdateUser from "./page/User/UpdateUser";
 import BranchList from "./page/List_Base/BranchList";
 import SalesManagement from "./page/Revenue/revenue";
 import Payment from "./page/Payment/Payment";
+import AddBranch from "./page/List_Base/AddBranch";
 function App() {
 
   const [cart,setCart] = useState([]);
@@ -60,11 +61,12 @@ function App() {
               {/* GiamDoc */}
               <Route path="/owner" element={<Admin_Layout><Owner/></Admin_Layout>} />
               <Route path="/list_base" element={<BranchList />} />
+              <Route path="/add-branch" element={<AddBranch />} />
           </Routes>
         </div>
       </Router>
     </ContextProvider>
-  );
+  );  
 }
 
 export default App;
