@@ -22,23 +22,19 @@ function Slider() {
                 <p id={Style.Title} > Các Page Chính </p>
                 <ul>
                     <li>
-                        <p><span><i class="bi bi-house-door-fill"></i></span>Trang Chủ</p>
+                        <p><a href="/"><span><i class="bi bi-house-door-fill"></i></span>Trang Chủ</a></p>
                     </li>
                     <li>
-                        <p><span><i class="bi bi-bookmarks-fill"></i></span>Về Chúng Tôi</p>
+                        <p><a href="/about_us"><span><i class="bi bi-bookmarks-fill"></i></span>Về Chúng Tôi</a></p>
+                    </li>
+                
+                    <li>
+                        <p><a href="/contact"><span><i class="bi bi-telephone-fill"></i></span>Liên Hệ</a></p>
                     </li>
                     <li>
-                        <p><span><i class="bi bi-question-diamond-fill"></i></span>FAQ</p>
+                        <p><a href="/menu"><span><i class="bi bi-list"></i></span>Menu</a></p>
                     </li>
-                    <li>
-                        <p><span><i class="bi bi-telephone-fill"></i></span>Liên Hệ</p>
-                    </li>
-                    <li>
-                        <p><span><i class="bi bi-tools"></i></span>Dịch Vụ</p>
-                    </li>
-                    <li>
-                        <p><span><i class="bi bi-journal-text"></i></span>Blog</p>
-                    </li>
+        
                    
                 </ul>
             </div>
@@ -82,6 +78,34 @@ function Slider() {
                     </li>
                     <li>
                         <p><span><i className="bi bi-file-earmark-text-fill"></i></span>Hủy Đơn</p>
+                    </li>
+                    <li>
+                    <Accordion >
+                        <Accordion.Item eventKey="0">
+                            <Accordion.Header><p>Cài Đặt</p></Accordion.Header>
+                            <Accordion.Body>
+                                <a href="https://example.com"><p><span><i className="bi bi-pencil-fill"></i></span>Điểm Danh</p></a>
+                               
+                            </Accordion.Body>
+                            <Accordion.Body>
+                            <a href="https://example.com"><p><span><i class="bi bi-body-text"></i></span>Xem Ngày</p></a>
+                               
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    
+                    </Accordion>
+                    </li>
+                </ul>
+            </div>
+            <hr></hr>
+            <div className={Style.Slider_Page}>
+                <p id={Style.Title}>Giám Đốc</p>
+                <ul>
+                    <li>
+                        <p><a href="/list_base"><span><i class="bi bi-database"></i></span>Cơ Sở</a></p>
+                    </li>
+                    <li>
+                        <p><a href="/add-branch"><span><i class="bi bi-database-add"></i></span>Thêm Cơ Sở</a></p>
                     </li>
                     <li>
                     <Accordion >
