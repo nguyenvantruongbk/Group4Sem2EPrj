@@ -22,7 +22,7 @@ import UserList from "./page/User/UserList";
 import UpdateUser from "./page/User/UpdateUser";
 import BranchList from "./page/List_Base/BranchList";
 import SalesManagement from "./page/Revenue/revenue";
-import Payment from "./page/Payment/payment";
+import Payment from "./page/Payment/Payment";
 import AddBranch from "./page/List_Base/AddBranch";
 import AddProduct from "./page/Menu/Add_Product";
 import ProductDetail from "./page/ProductDetail/Product_Detail";

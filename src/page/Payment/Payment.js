@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Confetti from 'react-confetti'; // Import thư viện Confetti
-import { Modal } from 'react-bootstrap'; // Import Modal từ Bootstrap
+import Confetti from 'react-confetti';
+import { Modal } from 'react-bootstrap';
 
 const CheckoutPage = () => {
   const location = useLocation();
@@ -10,27 +10,86 @@ const CheckoutPage = () => {
   const cartItems = location.state?.cart || [];
   const totalAmount = location.state?.total || 0;
 
+  const [branches, setBranches] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState(null);
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [address, setAddress] = useState({
     name: '',
     phone: '',
     location: '',
-    
   });
+  const [showSuccess, setShowSuccess] = useState(false);
 
-  const [paymentMethod, setPaymentMethod] = useState('Cash');
-  const [showSuccess, setShowSuccess] = useState(false); // State hiển thị modal chúc mừng
 
+
+
+  // Fetch branches (No changes to this part)
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        const response = await fetch('http://localhost:8082/chain/get_all', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({}),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setBranches(
+            data.map((item) => ({
+              id: item.chain_id,
+              name: item.name,
+              location: item.location,
+            }))
+          );
+        } else {
+          console.error('Lỗi khi lấy dữ liệu từ server');
+        }
+      } catch (error) {
+        console.error('Lỗi kết nối:', error);
+      }
+    };
+
+    fetchBranches();
+  }, []);
+
+  // Fetch payment methods from API
+  useEffect(() => {
+    const fetchPaymentMethods = async () => {
+      try {
+        const response = await fetch('http://localhost:8082/payment-methods');
+        if (response.ok) {
+          const data = await response.json();
+          setPaymentMethods(data); // Set payment methods from the response
+        } else {
+          console.error('Lỗi khi lấy phương thức thanh toán');
+        }
+      } catch (error) {
+        console.error('Lỗi kết nối:', error);
+      }
+    };
+
+    fetchPaymentMethods();
+    }, []);
+    
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
     setAddress({ ...address, [name]: value });
   };
 
   const handlePaymentMethodChange = (e) => {
-    setPaymentMethod(e.target.value);
+    setSelectedPaymentMethod(e.target.value);
   };
 
   const calculateTotal = () => {
     return totalAmount;
+  };
+
+  const handleBranchSelection = (branchId) => {
+    setSelectedBranch(branchId);
   };
 
   const handleOrderSubmit = () => {
@@ -39,24 +98,17 @@ const CheckoutPage = () => {
       return;
     }
 
-    if (!paymentMethod) {
+    if (!selectedPaymentMethod) {
       alert('Vui lòng chọn phương thức thanh toán.');
       return;
     }
 
+    if (!selectedBranch) {
+      alert('Vui lòng chọn cơ sở.');
+      return;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-    // Hiển thị modal chúc mừng
+    Submit_Oder();
     setShowSuccess(true);
   };
 
@@ -64,14 +116,51 @@ const CheckoutPage = () => {
     navigate('/');
   };
 
+
+
+  const [From_Sumit, setFrom_Sumit] = useState({
+    name: address.name,
+    phone: address.phone,
+    location: address.location,
+    product:{
+      cartItems
+    },
+    chian_id:selectedBranch,
+    totalAmount:totalAmount,
+    paymethot_id:selectedPaymentMethod,
+
+  });
+
+  useEffect(() => {
+    setFrom_Sumit({
+      name: address.name,
+      phone: address.phone,
+      location: address.location,
+      product: {
+        cartItems
+      },
+      chian_id: selectedBranch,
+      totalAmount: totalAmount,
+      paymethot_id: parseInt(selectedPaymentMethod),
+    });
+  }, [address, cartItems, selectedBranch, selectedPaymentMethod, totalAmount]);
+  
+ 
+
+  const Submit_Oder = () => {
+    console.log(From_Sumit)
+  };
+
+
+
+
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4">Thanh toán</h2>
 
-      {/* Modal Chúc mừng */}
       {showSuccess && (
         <>
-          <Confetti width={window.innerWidth} height={window.innerHeight} /> {/* Hiệu ứng pháo hoa */}
+          <Confetti width={window.innerWidth} height={window.innerHeight} />
           <Modal show={showSuccess} centered>
             <Modal.Body className="text-center p-5">
               <h1 className="text-success mb-4">🎉 Chúc mừng! 🎉</h1>
@@ -96,9 +185,35 @@ const CheckoutPage = () => {
         </>
       )}
 
-      {/* Nội dung chính */}
       {!showSuccess && (
         <>
+          {/* Chọn Cơ Sở */}
+          <div className="card mb-4">
+            <div className="card-header">Chọn Cơ Sở</div>
+            <div className="card-body">
+              {branches.length > 0 ? (
+                branches.map((branch) => (
+                  <div key={branch.id} className="form-check mb-2">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="branch"
+                      value={branch.id}
+                      checked={selectedBranch === branch.id}
+                      onChange={() => handleBranchSelection(branch.id)}
+                    />
+                    <label className="form-check-label">
+                      {branch.name} - {branch.location}
+                    </label>
+                  </div>
+                ))
+              ) : (
+                <p>Đang tải danh sách cơ sở...</p>
+              )}
+            </div>
+          </div>
+
+          {/* Giỏ hàng */}
           <div className="card mb-4">
             <div className="card-header">Giỏ hàng</div>
             <div className="card-body">
@@ -120,6 +235,7 @@ const CheckoutPage = () => {
             </div>
           </div>
 
+          {/* Địa chỉ giao hàng */}
           <div className="card mb-4">
             <div className="card-header">Địa chỉ giao hàng</div>
             <div className="card-body">
@@ -156,34 +272,33 @@ const CheckoutPage = () => {
             </div>
           </div>
 
+          {/* Phương thức thanh toán */}
           <div className="card mb-4">
             <div className="card-header">Phương thức thanh toán</div>
             <div className="card-body">
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="paymentMethod"
-                  value="Cash"
-                  checked={paymentMethod === 'Cash'}
-                  onChange={handlePaymentMethodChange}
-                />
-                <label className="form-check-label">Thanh toán khi nhận hàng (Cash)</label>
-              </div>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="paymentMethod"
-                  value="Bank Transfer"
-                  checked={paymentMethod === 'Bank Transfer'}
-                  onChange={handlePaymentMethodChange}
-                />
-                <label className="form-check-label">Chuyển khoản ngân hàng (Bank Transfer)</label>
-              </div>
+              {paymentMethods.length > 0 ? (
+                paymentMethods.map((method) => (
+                  <div key={method.paymentMethodId} className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="paymentMethod"
+                      value={method.paymentMethodId}
+                      checked={selectedPaymentMethod === method.paymentMethodId}
+                      onChange={handlePaymentMethodChange}
+                    />
+                    <label className="form-check-label">
+                      {method.methodName} - {method.description}
+                    </label>
+                  </div>
+                ))
+              ) : (
+                <p>Đang tải phương thức thanh toán...</p>
+              )}
             </div>
           </div>
 
+          {/* Tổng tiền */}
           <div className="card">
             <div className="card-body d-flex justify-content-between align-items-center">
               <h5 className="mb-0">Tổng tiền: {calculateTotal().toLocaleString()} VND</h5>
@@ -199,4 +314,3 @@ const CheckoutPage = () => {
 };
 
 export default CheckoutPage;
-
