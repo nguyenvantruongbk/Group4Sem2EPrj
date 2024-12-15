@@ -4,8 +4,8 @@ import React from "react";
 const ProductFilter = ({
   searchTitle,
   setSearchTitle,
-  selectedBrand,
-  setSelectedBrand,
+  // selectedBrand,
+  // setSelectedBrand,
   priceRange,
   setPriceRange,
   availabilityStatus,
@@ -28,7 +28,7 @@ const ProductFilter = ({
           onChange={(e) => setSearchTitle(e.target.value)}
         />
       </div>
-      <div className="mb-3">
+      {/* <div className="mb-3">
         <label className="form-label">Brand</label>
         <select
           className="form-select"
@@ -42,19 +42,22 @@ const ProductFilter = ({
             </option>
           ))}
         </select>
-      </div>
+      </div> */}
       <div className="mb-3">
-        <label className="form-label">Status</label>
+        <label htmlFor="status-select" className="form-label">
+          Status:
+        </label>
         <select
+          id="status-select"
           className="form-select"
           value={availabilityStatus}
           onChange={(e) => setAvailabilityStatus(e.target.value)}
         >
-          <option value="all">All Status</option>
-          <option value="available">In Stock</option>
-          <option value="unavailable">Low Stock</option>
+          <option value="inStock">In Stock</option>
+          <option value="outStock">Out of Stock</option>
         </select>
       </div>
+
       <div className="mb-3">
         <label className="form-label">Price</label>
         <div className="d-flex justify-content-between">

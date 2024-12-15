@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MenuCard from "../../components/Layout/components/MenuCard/Menu_Card";
 import ProductFilter from "../../components/Layout/components/Filter_Card/ProductFilter";
+
 const exchangeRate = 1000; // Tỷ giá USD -> VNĐ
 
 const CoffeeMenu = () => {
@@ -11,48 +12,56 @@ const CoffeeMenu = () => {
   const [selectedBrand, setSelectedBrand] = useState("all");
   const [priceRange, setPriceRange] = useState([0, 100000]); // [minPrice, maxPrice]
   const [searchTitle, setSearchTitle] = useState("");
-  const [availabilityStatus, setAvailabilityStatus] = useState("all");
-  const [selectedBranch, setSelectedBranch] = useState("all"); // Cơ sở được chọn
-  const [branches, setBranches] = useState(["all", "Base 1", "Base 2", "Base 3"]); // Danh sách cơ sở
+  const [availabilityStatus, setAvailabilityStatus] = useState("inStock");
+  // const [selectedBranch, setSelectedBranch] = useState("all"); // Cơ sở được chọn
+  // const [branches, setBranches] = useState(["all", "Base 1", "Base 2", "Base 3"]); // Danh sách cơ sở
 
   const itemsPerPage = 12;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("https://dummyjson.com/products/");
-        const data = await response.json();
-        const convertedProducts = data.products.map((product, index) => ({
-          ...product,
-          price: product.price * exchangeRate,
-          availabilityStatus: index % 2 === 0 ? "In Stock" : "Low Stock",
-          branch: `Base ${index % 3 + 1}`, // Giả sử phân bổ sản phẩm ngẫu nhiên cho các cơ sở
-        }));
-        setProducts(convertedProducts);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      }
-    };
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:8082/product");
+      const data = await response.json();
+      console.log("Fetched products:", data); // Kiểm tra dữ liệu trả về
+      const convertedProducts = data.map((product) => ({
+        ...product,
+        title: product.name, // Thêm trường 'title' vì dữ liệu từ API không có
+      }));
+      setProducts(convertedProducts);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
 
-    fetchData();
-  }, []);
+  fetchData();
+}, []);
+
 
   const handleProductAdded = (newProduct) => {
     setProducts((prevProducts) => [...prevProducts, newProduct]);
   };
 
   const filteredProducts = products.filter((product) => {
-    const matchesBrand = selectedBrand === "all" || product.brand === selectedBrand;
+    // const matchesBrand = selectedBrand === "all" || product.brand === selectedBrand;
     const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
     const matchesTitle =
       searchTitle === "" || product.title.toLowerCase().includes(searchTitle.toLowerCase());
+  
+    // Lọc theo trạng thái kho
     const matchesAvailability =
-      availabilityStatus === "all" || product.availabilityStatus === availabilityStatus;
-    const matchesBranch = selectedBranch === "all" || product.branch === selectedBranch;
-    return matchesBrand && matchesPrice && matchesTitle && matchesAvailability && matchesBranch;
+      availabilityStatus === "inStock"
+        ? product.stock > 0
+        : availabilityStatus === "outStock"
+        ? product.stock < 1
+        : true;
+    return matchesPrice && matchesTitle && matchesAvailability;
+    // const matchesBranch = selectedBranch === "all" || product.branch === selectedBranch;
+    // return matchesBrand && matchesPrice && matchesTitle && matchesAvailability && matchesBranch;
   });
+  
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const currentItems = filteredProducts.slice(
@@ -67,12 +76,13 @@ const CoffeeMenu = () => {
   }
 
   return (
+    
     <div className="container mt-5">
       <div className="row">
         {/* Bộ lọc */}
         <div className="col-3">
           {/* Chọn cơ sở */}
-          <div className="mb-3">
+          {/* <div className="mb-3">
             <label htmlFor="branch-select" className="form-label">
               Select Base:
             </label>
@@ -88,14 +98,14 @@ const CoffeeMenu = () => {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
 
           {/* Bộ lọc */}
           <ProductFilter
             searchTitle={searchTitle}
             setSearchTitle={setSearchTitle}
-            selectedBrand={selectedBrand}
-            setSelectedBrand={setSelectedBrand}
+            // selectedBrand={selectedBrand}
+            // setSelectedBrand={setSelectedBrand}
             priceRange={priceRange}
             setPriceRange={setPriceRange}
             availabilityStatus={availabilityStatus}
@@ -106,11 +116,19 @@ const CoffeeMenu = () => {
 
         {/* Danh sách sản phẩm */}
         <div className="col-9">
-          <div className="row">
-            {currentItems.map((product) => (
-              <MenuCard product={product} key={product.id} />
-            ))}
-          </div>
+        <div
+          style={{
+            display: "grid", // Bố cục dạng lưới
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", // Tự động chia cột, mỗi cột tối thiểu 300px
+            gap: "20px", // Khoảng cách giữa các thẻ
+            justifyContent: "center", // Căn giữa lưới sản phẩm
+          }}
+        >
+          {currentItems.map((product) => (
+            <MenuCard product={product} key={product.id} />
+          ))}
+        </div>
+
 
           {/* Pagination */}
           {totalPages > 1 && (
