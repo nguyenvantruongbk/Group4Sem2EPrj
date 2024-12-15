@@ -14,6 +14,7 @@ const CheckoutPage = () => {
     name: '',
     phone: '',
     location: '',
+    
   });
 
   const [paymentMethod, setPaymentMethod] = useState('Cash');
@@ -42,6 +43,18 @@ const CheckoutPage = () => {
       alert('Vui lòng chọn phương thức thanh toán.');
       return;
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Hiển thị modal chúc mừng
     setShowSuccess(true);
@@ -90,10 +103,10 @@ const CheckoutPage = () => {
             <div className="card-header">Giỏ hàng</div>
             <div className="card-body">
               {cartItems.map((item) => (
-                <div key={item.id} className="d-flex align-items-center mb-3">
+                <div key={item.productId} className="d-flex align-items-center mb-3">
                   <img
-                    src={item.images}
-                    alt={item.title}
+                    src={item.img}
+                    alt={item.name}
                     style={{ width: '80px', height: '80px', objectFit: 'cover' }}
                   />
                   <div className="ms-3 flex-grow-1">

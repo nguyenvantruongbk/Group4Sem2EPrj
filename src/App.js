@@ -58,7 +58,6 @@ function App() {
               {/* QuanLi */}
 
               <Route path="/revenue" element={<SalesManagement />} />
-
               {/* GiamDoc */}
               <Route path="/owner" element={<Admin_Layout><Owner/></Admin_Layout>} />
               <Route path="/list_base" element={<Slider_Layout><BranchList/></Slider_Layout>} />
