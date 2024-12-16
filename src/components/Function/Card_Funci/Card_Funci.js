@@ -32,6 +32,10 @@ function Add_To_Card({ props, cart, setCart }){
 }
 
 
+
+
+
+
 function Change_quantity({ props, quantity, cart, setCart }) {
     // Chuyển đổi quantity thành số nếu nó là chuỗi
     const numericQuantity = typeof quantity === 'string' ? parseInt(quantity, 10) : quantity;
