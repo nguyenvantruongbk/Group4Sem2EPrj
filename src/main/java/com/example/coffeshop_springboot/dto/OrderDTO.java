@@ -1,6 +1,7 @@
 package com.example.coffeshop_springboot.dto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class OrderDTO {
     private Long user_Id;
@@ -9,6 +10,15 @@ public class OrderDTO {
     private int status_id;
     private int paymethot_id;
 
+    public List<CartDTO> getProduct() {
+        return product;
+    }
+
+    public void setProduct(List<CartDTO> product) {
+        this.product = product;
+    }
+
+    private List<CartDTO> product;
 
     private int quantity;
     private BigDecimal price;

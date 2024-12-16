@@ -40,8 +40,9 @@ public class SecurityConfig {
                                 "/chain_sales/**",
                                 "/product/**",
                                 "/menu/**",
-                                "/orders/**"
-
+                                "/orders/**",
+                                "/payment-methods/**",
+                                "/order_products/**"
                                 ).permitAll() // Public access
                         .requestMatchers("/user_role/**").hasAuthority("MANAGER") // Requires MANAGER authority
                         .anyRequest().authenticated() // All other requests require authentication

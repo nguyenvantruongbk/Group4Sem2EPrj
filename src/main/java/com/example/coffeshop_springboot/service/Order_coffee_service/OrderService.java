@@ -1,5 +1,6 @@
 package com.example.coffeshop_springboot.service.Order_coffee_service;
 
+import com.example.coffeshop_springboot.dto.CartDTO;
 import com.example.coffeshop_springboot.dto.OrderDTO;
 import com.example.coffeshop_springboot.entity.Chain_coffee_entity.Chain;
 import com.example.coffeshop_springboot.entity.Order_coffee_entity.Order;
@@ -8,6 +9,7 @@ import com.example.coffeshop_springboot.entity.Order_coffee_entity.OrderStatus;
 import com.example.coffeshop_springboot.entity.Order_coffee_entity.PaymentMethod;
 import com.example.coffeshop_springboot.entity.Product_coffee_entity.Product;
 import com.example.coffeshop_springboot.entity.User;
+import com.example.coffeshop_springboot.entity.UserAuth;
 import com.example.coffeshop_springboot.repository.Chain_coffee_repository.Chain_Repository;
 import com.example.coffeshop_springboot.repository.Order_coffee_repository.OrderProductRepository;
 import com.example.coffeshop_springboot.repository.Order_coffee_repository.OrderRepository;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -46,21 +49,18 @@ public class OrderService {
 
 
 
-
     @Transactional
-    public Order createOrder(OrderDTO order) {
+    public Order createOrder(OrderDTO order , UserAuth userAuth) {
         try {
             // Create the order entity
             Order order1 = new Order();
 
             // Find related entities and handle possible null cases
             OrderStatus orderStatus = orderStatusRepository
-                    .findByStatusId(order.getStatus_id())
+                    .findByStatusId(1)
                     .orElseThrow(() -> new RuntimeException("OrderStatus not found for id: " + order.getStatus_id()));
 
-            User user = userRepository
-                    .findByUserId(order.getUser_Id())
-                    .orElseThrow(() -> new RuntimeException("User not found for id: " + order.getUser_Id()));
+
 
             PaymentMethod paymentMethod = paymentMethodRepository.findByPaymentMethodId(order.getPaymethot_id());
 
@@ -69,10 +69,14 @@ public class OrderService {
                     .findByChainId(order.getChian_id())
                     .orElseThrow(() -> new RuntimeException("Chain not found for id: " + order.getChian_id()));
 
+
             // Set the properties of the order
             order1.setPaymentMethod(paymentMethod);
+
+
+
             order1.setStatus(orderStatus);
-            order1.setUser(user);
+            order1.setUser(userAuth.getUser());
             order1.setChain(chain);
             order1.setTotalAmount(order.getTotalAmount());
 
@@ -80,20 +84,51 @@ public class OrderService {
             Order newOrder = orderRepository.save(order1);
 
             // Find the product and handle possible null case
-            Product product = productRepository
-                    .findByProductId(order.getProduct_Id())
-                    .orElseThrow(() -> new RuntimeException("Product not found for id: " + order.getProduct_Id()));
-
-            // Create and save the OrderProduct
-            OrderProduct orderProduct = new OrderProduct();
-            orderProduct.setOrder(newOrder);
-            orderProduct.setProduct(product);
-            orderProduct.setQuantity(order.getQuantity());
-            orderProduct.setPrice(order.getPrice());
-            orderProductRepository.save(orderProduct);
+//            Product product = productRepository
+//                    .findByProductId(order.getProduct_Id())
+//                    .orElseThrow(() -> new RuntimeException("Product not found for id: " + order.getProduct_Id()));
+//
+//            // Create and save the OrderProduct
+//            OrderProduct orderProduct = new OrderProduct();
+//            orderProduct.setOrder(newOrder);
+//            orderProduct.setProduct(product);
+//            orderProduct.setQuantity(order.getQuantity());
+//            orderProduct.setPrice(order.getPrice());
+//            orderProductRepository.save(orderProduct);
 
             // Return the newly created order
+            List<Integer> productIds = order.getProduct().stream()
+                    .map(CartDTO::getProductId)
+                    .collect(Collectors.toList());
+
+            List<Product> products = productRepository.findByProductIdIn(productIds);
+
+            // Create OrderProduct entities
+            List<OrderProduct> orderProducts = order.getProduct()
+                    .stream()
+                    .map(cartDTO -> {
+                        Product product = products.stream()
+                                .filter(p -> p.getProductId() == cartDTO.getProductId()) // Use == for int comparison
+                                .findFirst()
+                                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + cartDTO.getProductId()));
+                        OrderProduct orderProduct = new OrderProduct();
+                        orderProduct.setProduct(product);
+                        orderProduct.setQuantity(cartDTO.getQuantity());
+                        orderProduct.setPrice(cartDTO.getPrice());
+                        orderProduct.setOrder(newOrder);
+                        return orderProduct;
+                    })
+                    .collect(Collectors.toList());
+
+            // Save all OrderProducts at once
+            orderProductRepository.saveAll(orderProducts);
+
+
+            // Save all OrderProducts at once
+            orderProductRepository.saveAll(orderProducts);
             return newOrder;
+
+
         } catch (Exception e) {
             // Log the error for better debugging
             System.err.println("Error creating order: " + e.getMessage());
@@ -105,6 +140,7 @@ public class OrderService {
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
+
 
 
     public  Order change_Status(Integer Order_id,Integer Status_id){
