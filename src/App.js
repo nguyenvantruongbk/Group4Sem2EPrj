@@ -46,17 +46,17 @@ function App() {
               <Route path="/cart" element={<Default_Layout><Cart/></Default_Layout>} />
               <Route path="/login_register" element={<Slider_Layout><Login_Register/></Slider_Layout>} />
               {/* <Route path="/product/:id" element={<Default_Layout> <ProductDetails /></Default_Layout>} /> */}
-              <Route path="/product/:id" component={ProductDetail} />
-
+              <Route path="/product/:id" element={<Default_Layout><ProductDetail /></Default_Layout>} />
               <Route path="/contact" element={<Slider_Layout><Contact/></Slider_Layout>} />
-        
-
               {/* KhachHang */}
-
               <Route path="/user_list" element={<UserList />} />
               <Route path="/update_user" element={<Default_Layout><UpdateUser/></Default_Layout>} />
               <Route path="/payment" element={<Default_Layout><Payment/></Default_Layout>} />
               <Route path="/list_order" element={<No_Footer_Layout><List_Oders/></No_Footer_Layout>} />
+
+
+
+
 
               {/* NhanhVien */}
 
@@ -65,6 +65,7 @@ function App() {
               {/* QuanLi */}
 
               <Route path="/revenue" element={<SalesManagement />} />
+
               {/* GiamDoc */}
               <Route path="/owner" element={<Admin_Layout><Owner/></Admin_Layout>} />
               <Route path="/list_base" element={<Slider_Layout><BranchList/></Slider_Layout>} />

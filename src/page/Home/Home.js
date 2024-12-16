@@ -177,7 +177,7 @@ function List_Menu(){
                                 <p className={styles.Home_List_Menu_Conten_head}>GIỚI THIỆU BẠN BÈ</p>
                                 <p  className={styles.Home_List_Menu_Conten_mony}>Earn $10</p>
                                 <p className={styles.Home_List_Menu_Conten_conten}>Share your love of coffee with friends</p>
-                                <button>Menu</button>
+                                <button ><a href='/menu'>Menu</a></button>
                           </div>
                     </div>
                 </Col>
@@ -197,7 +197,7 @@ function List_Menu(){
                                 <p className={styles.Home_List_Menu_Conten_head}>CÀ PHÊ LẠNH</p>
                                 <p  className={styles.Home_List_Menu_Conten_mony}>Earn $10</p>
                                 <p className={styles.Home_List_Menu_Conten_conten}>Refresh your mind with organic, sustainably-sourced cold brew coffee.</p>
-                                <button>ĐỌC THÊM</button>
+                                <button><a href='/about_us'>Read More</a></button>
                           </div>
                     </div>
                 </Col>

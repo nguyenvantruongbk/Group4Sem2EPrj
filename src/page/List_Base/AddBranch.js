@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import FileUpload from '../../components/Function/Upload/FileUpload';
 
 const AddBranch = () => {
+  const [selectedFile, setSelectedFile] = useState(null);  // Store the selected file
+  const [uploadedUrl, setUploadedUrl] = useState('');  // Store the uploaded file URL
+  const [isUploadSuccessful, setIsUploadSuccessful] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);  // Track upload state
+  
   const [formData, setFormData] = useState({
     name: '',
     location: '',
@@ -9,38 +15,93 @@ const AddBranch = () => {
     manager: '',
     img: '',
   });
-
-  const [error, setError] = useState(null); // Quản lý lỗi
+  
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  // Handle file selection
+  const handleFileSelect = (file) => {
+    setSelectedFile(file);
+    setIsUploadSuccessful(false);  // Reset previous success state
+  };
+
+  // Handle file upload and form submission
+  const handleUploadAndSubmit = async (e) => {
     e.preventDefault();
 
-    // Kiểm tra dữ liệu trước khi gửi
-    if (!formData.name || !formData.location || !formData.contact_info || !formData.manager || !formData.img) {
-      setError('Vui lòng điền đầy đủ thông tin!');
+    // Check if the file is selected or uploaded
+    if (!isUploadSuccessful && !selectedFile) {
+      alert('Vui lòng chọn tệp để tải lên!');
       return;
     }
 
-    try {
-      const response = await fetch(`http://localhost:8082/chain/create_new/${formData.manager}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+    // If file is not uploaded, handle the file upload first
+    if (!isUploadSuccessful) {
+      setIsUploading(true);
+      const formDataToUpload = new FormData();
+      formDataToUpload.append('files', selectedFile);
 
-      if (response.ok) {
-        alert('Tạo cơ sở thành công!');
-        setError(null);
-        navigate('/list_base'); // Điều hướng về danh sách cơ sở
-      } else {
-        const errorData = await response.json();
-        setError(errorData.message || 'Đã có lỗi xảy ra!');
+      try {
+        const response = await fetch('http://localhost:4000/upload', {
+          method: 'POST',
+          body: formDataToUpload,
+        });
+
+        if (!response.ok) {
+          throw new Error('Lỗi khi tải tệp lên!');
+        }
+
+        const data = await response.json();
+        if (data.urls && data.urls.length > 0) {
+      
+          setUploadedUrl(data.urls[0]);
+          formData.img = data.urls[0]
+          setIsUploadSuccessful(true);
+        } else {
+          alert('Không có URL nào được trả về!');
+          setIsUploadSuccessful(false);
+        }
+      } catch (error) {
+        console.error('Lỗi khi tải lên:', error);
+        alert('Đã có lỗi xảy ra khi tải lên tệp.');
+        setIsUploadSuccessful(false);
+      } finally {
+        setIsUploading(false);
       }
-    } catch (error) {
-      setError('Tài Khoản Sai');
+    }
+
+    // Now submit the form if file upload is successful
+    if (isUploadSuccessful) {
+      // Validate form data
+      if (!formData.name || !formData.location || !formData.contact_info || !formData.manager || !formData.img) {
+        setError('Vui lòng điền đầy đủ thông tin!');
+        return;
+      }
+
+      formData.img = uploadedUrl; // Add the uploaded file URL to form data
+
+      try {
+        setIsUploading(true);
+        const response = await fetch(`http://localhost:8082/chain/create_new/${formData.manager}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+        if (response.ok) {
+          alert('Tạo cơ sở thành công!');
+          setError(null);
+          navigate('/list_base');
+        } else {
+          const errorData = await response.json();
+          setError(errorData.message || 'Đã có lỗi xảy ra!');
+        }
+      } catch (error) {
+        setError('Tài Khoản Sai');
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -48,7 +109,8 @@ const AddBranch = () => {
     <div className="container mt-5">
       <h2 className="text-center mb-4">Thêm cơ sở mới</h2>
       {error && <div className="alert alert-danger">{error}</div>}
-      <form onSubmit={handleSubmit}>
+
+      <form onSubmit={handleUploadAndSubmit}>
         <div className="mb-3">
           <label className="form-label">Tên cơ sở</label>
           <input
@@ -59,6 +121,7 @@ const AddBranch = () => {
             required
           />
         </div>
+
         <div className="mb-3">
           <label className="form-label">Địa điểm</label>
           <input
@@ -69,6 +132,7 @@ const AddBranch = () => {
             required
           />
         </div>
+
         <div className="mb-3">
           <label className="form-label">Liên hệ</label>
           <input
@@ -79,6 +143,7 @@ const AddBranch = () => {
             required
           />
         </div>
+
         <div className="mb-3">
           <label className="form-label">Người quản lý</label>
           <input
@@ -89,18 +154,19 @@ const AddBranch = () => {
             required
           />
         </div>
+
         <div className="mb-3">
-          <label className="form-label">Ảnh (URL)</label>
-          <input
-            type="text"
-            className="form-control"
-            value={formData.img}
-            onChange={(e) => setFormData({ ...formData, img: e.target.value })}
-            required
-          />
+          {/* FileUpload component */}
+          <FileUpload onFileSelect={handleFileSelect} />
         </div>
-        <button type="submit" className="btn btn-primary">
-          Thêm cơ sở
+
+        {/* Unified Button for Upload and Submit */}
+        <button 
+          type="submit" 
+          className="btn btn-primary"
+          disabled={isUploading || (!isUploadSuccessful && !selectedFile)}
+        >
+          {isUploading ? 'Đang tải lên...' : (isUploadSuccessful ? 'Thêm cơ sở' : 'Tải lên')}
         </button>
       </form>
     </div>
