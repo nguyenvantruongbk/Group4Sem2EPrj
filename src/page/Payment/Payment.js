@@ -4,7 +4,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Confetti from 'react-confetti';
 import { Modal } from 'react-bootstrap';
 
+//Khai Báo Biến Toàn Cục
+import Context from '../../Context/Context';
+import { useContext } from 'react';
 const CheckoutPage = () => {
+  const {token,removeToken} =useContext(Context)
+
   const location = useLocation();
   const navigate = useNavigate();
   const cartItems = location.state?.cart || [];
@@ -109,7 +114,7 @@ const CheckoutPage = () => {
     }
 
     Submit_Oder();
-    setShowSuccess(true);
+
   };
 
   const handleBackToHome = () => {
@@ -128,7 +133,7 @@ const CheckoutPage = () => {
     chian_id:selectedBranch,
     totalAmount:totalAmount,
     paymethot_id:selectedPaymentMethod,
-
+    
   });
 
   useEffect(() => {
@@ -136,9 +141,7 @@ const CheckoutPage = () => {
       name: address.name,
       phone: address.phone,
       location: address.location,
-      product: {
-        cartItems
-      },
+      product:cartItems,
       chian_id: selectedBranch,
       totalAmount: totalAmount,
       paymethot_id: parseInt(selectedPaymentMethod),
@@ -147,10 +150,26 @@ const CheckoutPage = () => {
   
  
 
-  const Submit_Oder = () => {
-    console.log(From_Sumit)
+  const Submit_Oder = async () => {
+    try {
+      const response = await fetch('http://localhost:8082/orders', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(From_Sumit),
+      });
+  
+      if (response.ok) {
+        setShowSuccess(true);
+      } else {
+        alert("Lỗi khi tạo hóa đơn");
+      }
+    } catch (error) {
+      alert("Lỗi khi tạo hóa đơn Server");
+    }
   };
-
 
 
 
