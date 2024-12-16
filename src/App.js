@@ -16,6 +16,7 @@ import Menu from "./page/Menu/Menu";
 import Default_Layout from "./components/Layout/Default_Layout/Default_Layout";
 import Admin_Layout from "./components/Layout/Admin_Layout/Admin_Layout";
 import Login_Register from "./page/Login_Register/Login_Register";
+import No_Footer_Layout from "./components/Layout/No_Footer_Layout/No_Footer_Layout";
 // import ProductDetails from "./page/ProductDetail/Product_Detail";
 import Slider_Layout from "./components/Layout/Slider_Layout/Slider_Layout";
 import UserList from "./page/User/UserList";
@@ -26,6 +27,8 @@ import Payment from "./page/Payment/Payment";
 import AddBranch from "./page/List_Base/AddBranch";
 import AddProduct from "./page/Menu/Add_Product";
 import ProductDetail from "./page/ProductDetail/Product_Detail";
+import List_Oders from "./page/Order/List_Oders";
+
 function App() {
 
   const [cart,setCart] = useState([]);
@@ -46,13 +49,14 @@ function App() {
               <Route path="/product/:id" component={ProductDetail} />
 
               <Route path="/contact" element={<Slider_Layout><Contact/></Slider_Layout>} />
-              <Route path="/user_list" element={<UserList />} />
-              <Route path="/update_user" element={<Default_Layout><UpdateUser/></Default_Layout>} />
-              <Route path="/payment" element={<Default_Layout><Payment/></Default_Layout>} />
+        
 
               {/* KhachHang */}
 
-
+              <Route path="/user_list" element={<UserList />} />
+              <Route path="/update_user" element={<Default_Layout><UpdateUser/></Default_Layout>} />
+              <Route path="/payment" element={<Default_Layout><Payment/></Default_Layout>} />
+              <Route path="/list_order" element={<No_Footer_Layout><List_Oders/></No_Footer_Layout>} />
 
               {/* NhanhVien */}
 

@@ -43,7 +43,7 @@ function Slider() {
                 <p id={Style.Title}>Khách Hàng</p>
                 <ul>
                     <li>
-                        <p><span><i class="bi bi-truck"></i></span>Theo Dõi </p>
+                        <p><a href="/list_order" ><span><i class="bi bi-truck"></i></span>Theo Dõi </a></p>
                     </li>
                     <li>
                         <p><span><i className="bi bi-file-earmark-text-fill"></i></span>Hủy Đơn</p>
