@@ -124,8 +124,9 @@ useEffect(() => {
             justifyContent: "center", // Căn giữa lưới sản phẩm
           }}
         >
-          {currentItems.map((product) => (
-            <MenuCard product={product} key={product.id} />
+          {currentItems.map((e) => (
+           
+              <MenuCard product={e}  />
           ))}
         </div>
 

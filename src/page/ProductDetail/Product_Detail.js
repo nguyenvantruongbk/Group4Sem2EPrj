@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductReviews from '../../components/Layout/components/Card_Detail/ProductReviews';
-import { Add_To_Card } from '../../components/Function/Card_Funci/Card_Funci';
+import { Add_To_Card_Menu } from '../../components/Function/Card_Funci/Card_Funci';
 import Style from "../../components/Layout/components/Card/Card.module.css";
 import Context from "../../Context/Context";
 import { useContext } from 'react';
 
-const ProductDetail = (props) => {
+const ProductDetail = () => {
   const { id } = useParams(); // Lấy id từ URL
   const [product, setProduct] = useState(null);
   const { cart, setCart } = useContext(Context);
-  const item = props.item; // Đảm bảo là bạn truyền 'item' vào từ parent component.
 
   const handleAddToCart = () => {
-    Add_To_Card({ props: item, cart, setCart });
+    Add_To_Card_Menu({ product, cart, setCart });
   };
 
   useEffect(() => {
@@ -22,7 +21,7 @@ const ProductDetail = (props) => {
       .then((response) => response.json())
       .then((data) => setProduct(data))
       .catch((error) => console.error('Error fetching product data:', error));
-  }, [id]); // Thêm id vào dependencies của useEffect
+  }, [id]);
 
   if (!product) {
     return <p>Loading...</p>;
@@ -31,36 +30,34 @@ const ProductDetail = (props) => {
   return (
     <div className="container mt-5">
       <div className="row">
-        <div className="col-md-4">
+        {/* Cột hình ảnh */}
+        <div className="col-md-4 text-center">
           <img
-            src={product.img || "default-image.jpg"} // Nếu không có ảnh, sẽ sử dụng ảnh mặc định
-            alt={product.title}
-            className="img-fluid"
-            style={{
-              maxHeight: '300px',
-              display: 'block',
-              marginLeft: 'auto',
-              marginTop: '-26px',
-              marginRight: '-10px',
-              width: '250px',
-              border: '1px solid orange'
-            }}
+            src={product.img || "default-image.jpg"}
+            alt={product.name || "No name available"}
+            className="img-fluid rounded shadow-sm border"
+            style={{ maxHeight: "300px", objectFit: "cover" }}
           />
         </div>
-        <div className="col-md-5">
-          <h1>{product.title}</h1>
-          <h5 style={{ padding: '5px' }}>{product.description}</h5>
-          <h5><b>Price: </b>{product.price.toLocaleString()}₫</h5>
-          {/* <h5><b>Brand: </b>{product.brand}</h5> */}
-          <h5><b>Stock: </b>{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</h5>
-          <div className={Style.Card_Defaul_Conten_Button_Add_to_Card}>
-            <button onClick={handleAddToCart}><i className="bi bi-bag-plus"></i> Add to Cart</button>
-          </div>
-        </div>
-        <div className="col-md-3">
-          <h3>Product Reviews</h3>
-          {/* Hiển thị reviews */}
-          <ProductReviews reviews={product.reviews || []} />
+
+        {/* Cột thông tin sản phẩm */}
+        <div className="col-md-8">
+          <h1 className="fw-bold mb-3">{product.name}</h1>
+          <p className="text-muted">{product.description}</p>
+          <h5 className="text-danger mb-3">
+            <b>Price: </b>{product.price.toLocaleString()}₫
+          </h5>
+          <h5 className="mb-4">
+            <b>Stock: </b>
+            {product.stock > 0 ? (
+              <span className="text-success">In Stock</span>
+            ) : (
+              <span className="text-danger">Out of Stock</span>
+            )}
+          </h5>
+          <button className="btn btn-warning btn-lg" onClick={handleAddToCart}>
+            <i className="bi bi-bag-plus"></i> Add to Cart
+          </button>
         </div>
       </div>
     </div>
