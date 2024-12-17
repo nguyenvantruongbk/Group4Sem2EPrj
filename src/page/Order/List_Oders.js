@@ -66,13 +66,13 @@ function Call_List_Oder() {
         <table className="table table-hover table-striped align-middle shadow-sm">
           <thead className="table-dark">
             <tr>
-              <th>#</th>
-              <th>User</th>
-              <th>Chain</th>
-              <th>Total Amount</th>
-              <th>Status</th>
-              <th>Payment</th>
-              <th>Products</th>
+              <th>Id</th>
+              <th>Users</th>
+              <th>Cơ sở</th>
+              <th>Tổng tiền</th>
+              <th>Trạng thái</th>
+              <th>Phương thức</th>
+              <th>Sản phẩm</th>
             </tr>
           </thead>
           <tbody>

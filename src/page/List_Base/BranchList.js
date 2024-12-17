@@ -120,19 +120,19 @@ const BranchList = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">List Of Base</h2>
+      <h2 className="text-center mb-4">Danh sách cơ sở</h2>
       <button className="btn btn-success mb-3" onClick={handleAddBranch}>
-        Add new base
+        Thêm cơ sở mới
       </button>
       <table className="table table-striped">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Contact</th>
-            <th>Image</th>
-            <th>Operation</th>
+            <th>Tên</th>
+            <th>Cơ sở</th>
+            <th>Liên hệ</th>
+            <th>Ảnh</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -181,14 +181,14 @@ const BranchList = () => {
                       }
                     />
                   </td>
-                  <td>
+                  {/* <td>
                     <button className="btn btn-success me-2" onClick={handleSave}>
                       Save
                     </button>
                     <button className="btn btn-secondary" onClick={handleCancel}>
                       CanC
                     </button>
-                  </td>
+                  </td> */}
                 </>
               ) : (
                 <>
@@ -205,12 +205,12 @@ const BranchList = () => {
                   </td>
                   <td>
                     <div className="d-flex justify-content-between">
-                      <button
+                      {/* <button
                         className="btn btn-warning w-100 me-2"
                         onClick={() => handleEdit(branch)}
                       >
                         Edit
-                      </button>
+                      </button> */}
                       <button
                         className="btn btn-danger w-100"
                         onClick={() => handleDeleteBranch(branch.id)}

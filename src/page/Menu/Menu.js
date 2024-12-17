@@ -133,23 +133,30 @@ useEffect(() => {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <nav>
-              <ul className="pagination justify-content-center">
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <li
-                    className={`page-item ${index + 1 === currentPage ? "active" : ""}`}
-                    key={index}
-                  >
-                    <button
-                      className="page-link"
-                      onClick={() => handlePageChange(index + 1)}
-                    >
-                      {index + 1}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+           <nav>
+           <ul className="pagination justify-content-center" style={{ margin: "10px 0" }}>
+             {Array.from({ length: totalPages }, (_, index) => (
+               <li
+                 className={`page-item ${index + 1 === currentPage ? "active" : ""}`}
+                 key={index}
+               >
+                 <button
+                   className="page-link"
+                   onClick={() => handlePageChange(index + 1)}
+                   style={{
+                     color: "#000", // Màu chữ
+                     border: "1px solid #000", // Viền đen
+                     backgroundColor: index + 1 === currentPage ? "#000" : "#fff",
+                     color: index + 1 === currentPage ? "#fff" : "#000", // Active màu chữ trắng
+                   }}
+                 >
+                   {index + 1}
+                 </button>
+               </li>
+             ))}
+           </ul>
+         </nav>
+         
           )}
         </div>
       </div>

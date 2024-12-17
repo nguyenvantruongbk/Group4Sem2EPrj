@@ -80,7 +80,7 @@ function App() {
               <Route path="/list_base" element={<Slider_Layout><BranchList/></Slider_Layout>} />
               <Route path="/add-branch" element={<AddBranch />} />
               <Route path="/list_product" element={<Slider_Layout><ListProduct/></Slider_Layout>} />
-              <Route path="/add_product" element={<AddProduct/>}/>
+              <Route path="/add_product" element={<No_Footer_Layout><AddProduct/></No_Footer_Layout>}/>
               <Route path="/update_product" element={<Default_Layout><UpdateProduct/></Default_Layout>} />
 
           </Routes>

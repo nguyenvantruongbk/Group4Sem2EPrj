@@ -90,10 +90,10 @@ const UpdateUser = () => {
  
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">Update User</h2>
+      <h2 className="text-center mb-4">Cập nhật người dùng</h2>
       <form className="border p-3 rounded shadow-sm bg-light" style={{ maxWidth: '500px', margin: 'auto' }}>
         <div className="mb-3">
-          <label htmlFor="name" className="form-label">Name</label>
+          <label htmlFor="name" className="form-label">Tên</label>
           <input
             type="text"
             id="name"
@@ -117,7 +117,7 @@ const UpdateUser = () => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="phone_number" className="form-label">Phone number</label>
+          <label htmlFor="phone_number" className="form-label">Số điện thoại</label>
           <input
             type="text"
             id="phone_number"
@@ -129,7 +129,7 @@ const UpdateUser = () => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="address" className="form-label">Adress</label>
+          <label htmlFor="address" className="form-label">Địa chỉ</label>
           <input
             type="text"
             id="address"
