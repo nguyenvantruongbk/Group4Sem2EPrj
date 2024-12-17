@@ -72,12 +72,12 @@ function AdminOrderManagement() {
 
   return (
     <div className="container mt-4">
-      <h2 className="text-center mb-4">Quản Lý Đơn Hàng</h2>
+      <h2 className="text-center mb-4">Order Management</h2>
 
       {/* Bộ lọc theo ngày */}
       <div className="mb-3 d-flex justify-content-end">
         <Form.Group controlId="dateFilter">
-          <Form.Label>Chọn Ngày:</Form.Label>
+          <Form.Label>Select Date:</Form.Label>
           <Form.Control
             type="date"
             value={selectedDate}
@@ -103,7 +103,6 @@ function AdminOrderManagement() {
                 <th>Total Amount</th>
                 <th>Status</th>
                 <th>Payment</th>
-                <th>Products</th>
                 <th>Update Status</th>
               </tr>
             </thead>
@@ -121,25 +120,14 @@ function AdminOrderManagement() {
                         <Badge bg="info">{order.status.statusName}</Badge>
                     </td>
                     <td>{order.paymentMethod.methodName}</td>
-                    <td>
-                        {/* Kiểm tra nếu cartReturnDTOS tồn tại */}
-                        {order.cartReturnDTOS?.length > 0 ? (
-                        order.cartReturnDTOS.map((product, idx) => (
-                            <div key={idx}>
-                            {product.product.name} - SL: {product.quantity}
-                            </div>
-                        ))
-                        ) : (
-                        <span className="text-muted">Không có sản phẩm</span>
-                        )}
-                    </td>
+     
                     <td>
                         <Form.Select
                         defaultValue={order.status.statusId}
                         onChange={(e) => handleStatusChange(order.orderId, e.target.value)}
                         disabled={updating}
                         >
-                        <option disabled>Chọn trạng thái</option>
+                        <option disabled>Select status</option>
                         {statuses.map((status) => (
                             <option key={status.statusId} value={status.statusId}>
                             {status.statusName}
@@ -147,7 +135,7 @@ function AdminOrderManagement() {
                         ))}
                         </Form.Select>
                         {updating && (
-                        <div className="text-muted small">Đang cập nhật...</div>
+                        <div className="text-muted small">Updating...</div>
                         )}
                     </td>
                     </tr>
