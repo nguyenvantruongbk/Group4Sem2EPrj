@@ -25,7 +25,7 @@ const AddBranch = () => {
     setIsUploadSuccessful(false);  // Reset previous success state
   };
 
-  // Handle file upload and form submission
+  // Handle file upload to Cloudinary and form submission
   const handleUploadAndSubmit = async (e) => {
     e.preventDefault();
 
@@ -39,23 +39,23 @@ const AddBranch = () => {
     if (!isUploadSuccessful) {
       setIsUploading(true);
       const formDataToUpload = new FormData();
-      formDataToUpload.append('files', selectedFile);
+      formDataToUpload.append('file', selectedFile);
+      formDataToUpload.append('upload_preset', 'coffe_shop');  // Upload Preset của Cloudinary
 
       try {
-        const response = await fetch('http://localhost:4000/upload', {
+        const response = await fetch('https://api.cloudinary.com/v1_1/dp1fm5pqd/image/upload', {
           method: 'POST',
           body: formDataToUpload,
         });
 
         if (!response.ok) {
-          throw new Error('Lỗi khi tải tệp lên!');
+          throw new Error('Lỗi khi tải tệp lên Cloudinary!');
         }
 
         const data = await response.json();
-        if (data.urls && data.urls.length > 0) {
-      
-          setUploadedUrl(data.urls[0]);
-          formData.img = data.urls[0]
+        if (data.secure_url) {
+          setUploadedUrl(data.secure_url);
+          setFormData((prevData) => ({ ...prevData, img: data.secure_url }));
           setIsUploadSuccessful(true);
         } else {
           alert('Không có URL nào được trả về!');
@@ -77,8 +77,6 @@ const AddBranch = () => {
         setError('Vui lòng điền đầy đủ thông tin!');
         return;
       }
-
-      formData.img = uploadedUrl; // Add the uploaded file URL to form data
 
       try {
         setIsUploading(true);
