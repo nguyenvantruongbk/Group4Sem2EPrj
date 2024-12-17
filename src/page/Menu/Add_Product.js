@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import FileUpload from '../../components/Function/Upload/FileUpload'; // Thêm import FileUpload
 
 const AddProduct = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +32,6 @@ const AddProduct = () => {
             data.map((item) => ({
               id: item.chain_id,
               name: item.name,
-
             }))
           );
         } else {
@@ -45,17 +45,18 @@ const AddProduct = () => {
     fetchBranches();
   }, []);
 
+  const handleFileSelect = (file) => {
+    setFormData({ ...formData, img: file });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
   
     // Hiển thị xem trước dữ liệu sản phẩm
     setPreviewData(formData);
-  
-   
   };
 
-
-  const Sumit_Produtct =async(e)=>{
+  const Sumit_Produtct = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch('http://localhost:8082/product/new', {
@@ -65,11 +66,11 @@ const AddProduct = () => {
         },
         body: JSON.stringify(formData), // Đẩy dữ liệu sản phẩm lên API
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         alert('Sản phẩm đã được tạo thành công!');
-  
+
         // Reset form sau khi thêm sản phẩm
         setFormData({
           name: '',
@@ -86,7 +87,8 @@ const AddProduct = () => {
     } catch (error) {
       console.error('Lỗi kết nối:', error);
     }
-  }
+  };
+
   const handleUpdateToMenu = () => {
     // Thêm sản phẩm vào menu giả lập
     const newProduct = {
@@ -158,15 +160,13 @@ const AddProduct = () => {
             required
           />
         </div>
+
+        {/* FileUpload component to select image */}
         <div className="mb-3">
-          <label className="form-label">Ảnh (URL)</label>
-          <input
-            type="text"
-            className="form-control"
-            value={formData.img}
-            onChange={(e) => setFormData({ ...formData, img: e.target.value })}
-          />
+          <label className="form-label">Ảnh sản phẩm</label>
+          <FileUpload onFileSelect={handleFileSelect} />
         </div>
+
         <div className="mb-3">
           <label className="form-label">Chọn cơ sở</label>
           <select
