@@ -26,13 +26,15 @@ const ListProduct = () => {
 
   // Hàm xóa sản phẩm
   const handleDeleteProduct = (productId) => {
+    console.log(productId)
     fetch(`http://localhost:8082/product/${productId}`, {
       method: 'DELETE',
     })
       .then((response) => {
         if (response.ok) {
           // Cập nhật lại danh sách sản phẩm sau khi xóa
-          setProducts(products.filter((product) => product.product_id !== productId));
+          window.location.reload();
+          
         } else {
           alert('Xóa sản phẩm không thành công');
         }
@@ -78,7 +80,7 @@ const ListProduct = () => {
           <tbody>
             {products.length > 0 ? (
               products.map((product) => (
-                <tr key={product.product_id}>
+                <tr key={product.productId}>
                   <td>{product.name}</td>
                   <td style={{ maxWidth: '300px' }}>{product.description}</td>
                   <td>{product.price.toLocaleString()} VND</td>
@@ -95,14 +97,15 @@ const ListProduct = () => {
                     {/* Nút Cập Nhật */}
                     <button
                       className="btn btn-warning btn-sm"
-                      onClick={() => handleUpdateProduct(product.product_id)} // Điều hướng tới trang cập nhật
+                      onClick={() => handleUpdateProduct(product.productId)} // Điều hướng tới trang cập nhật
                     >
                       Cập Nhật
+                    
                     </button>
                     {/* Nút Xóa */}
                     <button
                       className="btn btn-danger btn-sm ms-2"
-                      onClick={() => handleDeleteProduct(product.product_id)}
+                      onClick={() => handleDeleteProduct(product.productId)}
                     >
                       Xóa
                     </button>
