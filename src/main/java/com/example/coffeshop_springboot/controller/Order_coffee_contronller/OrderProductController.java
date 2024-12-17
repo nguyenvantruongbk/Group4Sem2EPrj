@@ -42,5 +42,16 @@ public class OrderProductController {
         return new ResponseEntity<>(orderProducts, HttpStatus.OK);
     }
 
+    @GetMapping("/order_all")
+    public ResponseEntity<List<Return_OderDto>> getallOrderProducts() {
+
+
+
+        List<Return_OderDto> orderProducts = orderProductService.get_all_oder_product();
+
+
+        return new ResponseEntity<>(orderProducts, HttpStatus.OK);
+    }
+
 
 }

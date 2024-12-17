@@ -21,6 +21,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,19 +84,6 @@ public class OrderService {
             // Save the order
             Order newOrder = orderRepository.save(order1);
 
-            // Find the product and handle possible null case
-//            Product product = productRepository
-//                    .findByProductId(order.getProduct_Id())
-//                    .orElseThrow(() -> new RuntimeException("Product not found for id: " + order.getProduct_Id()));
-//
-//            // Create and save the OrderProduct
-//            OrderProduct orderProduct = new OrderProduct();
-//            orderProduct.setOrder(newOrder);
-//            orderProduct.setProduct(product);
-//            orderProduct.setQuantity(order.getQuantity());
-//            orderProduct.setPrice(order.getPrice());
-//            orderProductRepository.save(orderProduct);
-
             // Return the newly created order
             List<Integer> productIds = order.getProduct().stream()
                     .map(CartDTO::getProductId)
@@ -141,22 +129,33 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-
-
-    public  Order change_Status(Integer Order_id,Integer Status_id){
-        try {
-
-            return  null;
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+    public List<Order> getOrdersByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return orderRepository.findOrdersByDateRange(startDate, endDate);
     }
+
+
 
     public List<Order> getOrdersByStatus(String status) {
         return orderRepository.findByStatus(status);
     }
+
+
+    public void updateOrderStatus(int orderId, int statusId) {
+        // Lấy thông tin Order từ database
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
+
+        // Lấy thông tin OrderStatus từ database
+        OrderStatus status = orderStatusRepository.findById(statusId)
+                .orElseThrow(() -> new RuntimeException("OrderStatus not found with id: " + statusId));
+
+        // Cập nhật trạng thái cho Order
+        order.setStatus(status);
+
+        // Lưu thay đổi vào database
+        orderRepository.save(order);
+    }
+
 }
 
 

@@ -5,6 +5,7 @@ import com.example.coffeshop_springboot.entity.User;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "`order`")
@@ -24,6 +25,9 @@ public class Order {
     @JoinColumn(name = "chain_id", nullable = false)
     private Chain chain;
 
+    @Column(name = "order_date", nullable = false, updatable = false)
+    private LocalDateTime orderDate;
+
 
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;
@@ -36,6 +40,11 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "payment_method_id", nullable = false)
     private PaymentMethod paymentMethod;
+
+    @PrePersist
+    protected void onCreate() {
+        this.orderDate = LocalDateTime.now();
+    }
 
     public User getUser() {
         return user;
@@ -83,5 +92,9 @@ public class Order {
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
     }
 }
