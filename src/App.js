@@ -28,7 +28,8 @@ import AddBranch from "./page/List_Base/AddBranch";
 import AddProduct from "./page/Menu/Add_Product";
 import ProductDetail from "./page/ProductDetail/Product_Detail";
 import List_Oders from "./page/Order/List_Oders";
-
+import ListProduct from "./page/Menu/List_Product";
+import UpdateProduct from "./page/Menu/UpdateProduct";
 function App() {
 
   const [cart,setCart] = useState([]);
@@ -70,7 +71,9 @@ function App() {
               <Route path="/owner" element={<Admin_Layout><Owner/></Admin_Layout>} />
               <Route path="/list_base" element={<Slider_Layout><BranchList/></Slider_Layout>} />
               <Route path="/add-branch" element={<AddBranch />} />
+              <Route path="/list_product" element={<Slider_Layout><ListProduct/></Slider_Layout>} />
               <Route path="/add_product" element={<AddProduct/>}/>
+              <Route path="/update_product" element={<Default_Layout><UpdateProduct/></Default_Layout>} />
 
           </Routes>
         </div>
