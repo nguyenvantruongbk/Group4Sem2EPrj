@@ -30,6 +30,7 @@ import ProductDetail from "./page/ProductDetail/Product_Detail";
 import List_Oders from "./page/Order/List_Oders";
 import ListProduct from "./page/Menu/List_Product";
 import UpdateProduct from "./page/Menu/UpdateProduct";
+import Statistical from "./page/Statistical/Statistical";
 function App() {
 
   const [cart,setCart] = useState([]);
@@ -64,7 +65,8 @@ function App() {
 
 
               {/* QuanLi */}
-
+        
+              <Route path="/statistical" element={<Slider_Layout><Statistical/></Slider_Layout>} />
               <Route path="/revenue" element={<SalesManagement />} />
 
               {/* GiamDoc */}
