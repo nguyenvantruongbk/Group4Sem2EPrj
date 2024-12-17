@@ -51,18 +51,42 @@ const BranchList = () => {
     setFormData({ ...branch });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData.name || !formData.location || !formData.contact_info || !formData.img) {
       alert('Vui lòng điền đầy đủ thông tin!');
       return;
     }
-    setBranches((prevBranches) =>
-      prevBranches.map((branch) =>
-        branch.id === editId ? { ...branch, ...formData } : branch
-      )
-    );
-    setEditId(null);
-    setFormData({ name: '', location: '', contact_info: '', img: '' });
+  
+    try {
+      const response = await fetch('http://localhost:8082/chain/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chain_id: editId,
+          name: formData.name,
+          location: formData.location,
+          contact_info: formData.contact_info,
+          img: formData.img,
+        }),
+      });
+  
+      if (response.ok) {
+        const updatedBranch = await response.json();
+        setBranches((prevBranches) =>
+          prevBranches.map((branch) =>
+            branch.id === editId ? { ...branch, ...formData } : branch
+          )
+        );
+        setEditId(null);
+        setFormData({ name: '', location: '', contact_info: '', img: '' });
+      } else {
+        console.error('Error updating branch');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const handleCancel = () => {
@@ -70,9 +94,23 @@ const BranchList = () => {
     setFormData({ name: '', location: '', contact_info: '', img: '' });
   };
 
-  const handleDeleteBranch = (branchId) => {
+  const handleDeleteBranch = async (branchId) => {
     if (window.confirm('Bạn có chắc muốn xóa cơ sở này không?')) {
-      setBranches((prevBranches) => prevBranches.filter((branch) => branch.id !== branchId));
+      try {
+        const response = await fetch(`http://localhost:8082/chain/delete/${branchId}`, {
+          method: 'DELETE',
+        });
+  
+        if (response.ok) {
+          setBranches((prevBranches) =>
+            prevBranches.filter((branch) => branch.id !== branchId)
+          );
+        } else {
+          console.error('Error deleting branch');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
   };
 
@@ -82,19 +120,19 @@ const BranchList = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">Danh sách cơ sở</h2>
+      <h2 className="text-center mb-4">List Of Base</h2>
       <button className="btn btn-success mb-3" onClick={handleAddBranch}>
-        Thêm cơ sở mới
+        Add new base
       </button>
       <table className="table table-striped">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Tên</th>
-            <th>Địa điểm</th>
-            <th>Liên hệ</th>
-            <th>Ảnh</th>
-            <th>Thao tác</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Contact</th>
+            <th>Image</th>
+            <th>Operation</th>
           </tr>
         </thead>
         <tbody>
@@ -145,10 +183,10 @@ const BranchList = () => {
                   </td>
                   <td>
                     <button className="btn btn-success me-2" onClick={handleSave}>
-                      Lưu
+                      Save
                     </button>
                     <button className="btn btn-secondary" onClick={handleCancel}>
-                      Hủy
+                      CanC
                     </button>
                   </td>
                 </>
@@ -166,19 +204,22 @@ const BranchList = () => {
                     />
                   </td>
                   <td>
-                    <button
-                      className="btn btn-warning me-2"
-                      onClick={() => handleEdit(branch)}
-                    >
-                      Chỉnh sửa
-                    </button>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => handleDeleteBranch(branch.id)}
-                    >
-                      Xóa
-                    </button>
+                    <div className="d-flex justify-content-between">
+                      <button
+                        className="btn btn-warning w-100 me-2"
+                        onClick={() => handleEdit(branch)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger w-100"
+                        onClick={() => handleDeleteBranch(branch.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
+
                 </>
               )}
             </tr>
