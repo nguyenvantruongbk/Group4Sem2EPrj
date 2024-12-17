@@ -47,6 +47,31 @@
                                     </a>
                                 </p>
                             </li>
+                            <li>
+                                <p>
+                                    <a href="/menu">
+                                        <span><i className="bi bi-bookmarks-fill"></i></span>
+                                        Thực Đơn
+                                    </a>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    <a href="/cart">
+                                        <span><i className="bi bi-bookmarks-fill"></i></span>
+                                        Giỏ Hàng
+                                    </a>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    <a href="/contact">
+                                        <span><i className="bi bi-bookmarks-fill"></i></span>
+                                        Liên Hệ
+                                    </a>
+                                </p>
+                            </li>
+                            
                         </ul>
                     </div>
                     <hr />
@@ -57,9 +82,7 @@
                                 <li>
                                     <p><a href="/list_order"><span><i className="bi bi-truck"></i></span>Theo Dõi</a></p>
                                 </li>
-                                <li>
-                                    <p><span><i className="bi bi-file-earmark-text-fill"></i></span>Hủy Đơn</p>
-                                </li>
+
                                 <li>
                                     <p><a href="/cart"><span><i className="bi bi-cart2"></i></span>Giỏ Hàng</a></p>
                                 </li>
@@ -86,10 +109,13 @@
                             <p id={Style.Title}>Quản Lý</p>
                             <ul>
                                 <li>
-                                    <p><span><i className="bi bi-folder-plus"></i></span>Tạo Hóa Đơn</p>
+                                    <p><a href="/order_for_manager"><span><i className="bi bi-folder-plus"></i></span>Danh Sách Hóa Đơn</a></p>
                                 </li>
                                 <li>
-                                    <p><span><i className="bi bi-file-earmark-text-fill"></i></span>Hủy Đơn</p>
+                                    <p><a href="/add_product"><span><i className="bi bi-folder-plus"></i></span>Tạo Sản Phẩm</a></p>
+                                </li>
+                                <li>
+                                    <p><a href="/list_product"><span><i className="bi bi-folder-plus"></i></span>Danh Sách Sản Phẩm </a></p>
                                 </li>
                             </ul>
                         </div>

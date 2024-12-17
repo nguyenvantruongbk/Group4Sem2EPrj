@@ -55,8 +55,10 @@ function App() {
               <Route path="/product/:id" element={<Default_Layout><ProductDetail /></Default_Layout>} />
               <Route path="/contact" element={<Slider_Layout><Contact/></Slider_Layout>} />
 
+
+
               {/* KhachHang */}
-              <Route path="/user_list" element={<UserList />} />
+              {/* <Route path="/user_list" element={<UserList />} /> */}
               <Route path="/update_user" element={<Default_Layout><UpdateUser/></Default_Layout>} />
               <Route path="/payment" element={<Default_Layout><Payment/></Default_Layout>} />
               <Route path="/list_order" element={<No_Footer_Layout><List_Oders/></No_Footer_Layout>} />
@@ -71,17 +73,23 @@ function App() {
 
               {/* QuanLi */}
         
-              <Route path="/statistical" element={<Slider_Layout><Statistical/></Slider_Layout>} />
-              <Route path="/revenue" element={<SalesManagement />} />
+        
+              {/* <Route path="/revenue" element={<SalesManagement />} /> */}
               <Route path="/order_for_manager" element={<No_Footer_Layout><AdminOrderManagement/></No_Footer_Layout>} />
+              <Route path="/add_product" element={<No_Footer_Layout><AddProduct/></No_Footer_Layout>}/>
+              <Route path="/list_product" element={<Slider_Layout><ListProduct/></Slider_Layout>} />
+              {/* <Route path="/update_product" element={<Default_Layout><UpdateProduct/></Default_Layout>} /> */}
 
               {/* GiamDoc */}
-              <Route path="/owner" element={<Admin_Layout><Owner/></Admin_Layout>} />
+              <Route path="/statistical" element={<Slider_Layout><Statistical/></Slider_Layout>} />
+
+
+              {/* <Route path="/owner" element={<Admin_Layout><Owner/></Admin_Layout>} /> */}
               <Route path="/list_base" element={<Slider_Layout><BranchList/></Slider_Layout>} />
               <Route path="/add-branch" element={<AddBranch />} />
-              <Route path="/list_product" element={<Slider_Layout><ListProduct/></Slider_Layout>} />
-              <Route path="/add_product" element={<No_Footer_Layout><AddProduct/></No_Footer_Layout>}/>
-              <Route path="/update_product" element={<Default_Layout><UpdateProduct/></Default_Layout>} />
+       
+             
+             
 
           </Routes>
         </div>
