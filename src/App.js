@@ -31,6 +31,8 @@ import List_Oders from "./page/Order/List_Oders";
 import ListProduct from "./page/Menu/List_Product";
 import UpdateProduct from "./page/Menu/UpdateProduct";
 import Statistical from "./page/Statistical/Statistical";
+import AdminOrderManagement from "./page/Order/Order_Management";
+
 function App() {
 
   const [cart,setCart] = useState([]);
@@ -68,6 +70,7 @@ function App() {
         
               <Route path="/statistical" element={<Slider_Layout><Statistical/></Slider_Layout>} />
               <Route path="/revenue" element={<SalesManagement />} />
+              <Route path="/order_for_manager" element={<No_Footer_Layout><AdminOrderManagement/></No_Footer_Layout>} />
 
               {/* GiamDoc */}
               <Route path="/owner" element={<Admin_Layout><Owner/></Admin_Layout>} />
