@@ -240,7 +240,7 @@ function List_Card(){
         callData();
     }, []);
 
-    console.log(list)
+ 
   
     return(
        <div className={styles.List_Card}  >

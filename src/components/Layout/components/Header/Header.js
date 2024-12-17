@@ -25,16 +25,8 @@ function HeaderTikTok() {
             <div className={style.Header_Icon} >
                 <div><a href='/'>COFFEE</a></div>
             </div>
-            <div className={style.Header_Search}>
-                <Form className={`d-flex `}  >
-                  <Form.Control
-                    type="search"
-                    placeholder="Tìm Kiếm"
-                    className="me-2"
-                    aria-label="Search"
-                  />
-                  <Button variant="outline-success"><i class="bi bi-search"></i></Button>
-                </Form>
+            <div >
+               
             </div>
             <div className={style.Header_Shortcut}>
                 <ul>

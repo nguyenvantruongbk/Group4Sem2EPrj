@@ -1,47 +1,19 @@
 import React, { createContext, useState, useEffect } from 'react';
 
-const Context = createContext();  // Khởi tạo context
+const Context = createContext(); // Khởi tạo context
 
-// Tạo một component ContextProvider để quản lý trạng thái toàn cục
 export const ContextProvider = ({ children }) => {
-
-
-  // ||||||||||    ||||||||||   ||||||||||     ||||||||
-  // ||            ||      ||   ||      ||     ||     ||
-  // ||            ||||||||||   ||||||||||     ||     ||
-  // ||            ||      ||   ||     ||      ||     ||
-  // ||||||||||    ||      ||   ||       ||    ||||||||
-
-
-  // Sử dụng useState để lưu trữ giỏ hàng (cart) và kiểm tra nếu có dữ liệu trong localStorage
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem('cart');
-    return savedCart ? JSON.parse(savedCart) : []; // Trả về giỏ hàng đã lưu hoặc một mảng rỗng nếu không có
+    return savedCart ? JSON.parse(savedCart) : [];
   });
 
-  // Lưu giỏ hàng vào localStorage mỗi khi giỏ hàng thay đổi
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart)); // Cập nhật giỏ hàng trong localStorage
-  }, [cart]); // Mảng phụ thuộc đảm bảo chỉ chạy khi giỏ hàng (cart) thay đổi
-
-
-  // ||||||||||    ||||||||||   ||||||||||     ||||||||
-  // ||            ||      ||   ||      ||     ||     ||
-  // ||            ||||||||||   ||||||||||     ||     ||
-  // ||            ||      ||   ||     ||      ||     ||
-  // ||||||||||    ||      ||   ||       ||    ||||||||
-
-  
-
-  // ||||||||||    ||||||||||   ||    ||    ||||||||  ||||      ||
-  //     ||        ||      ||   ||  ||      ||        ||  ||    ||
-  //     ||        ||      ||   ||||||      ||||||||  ||    ||  ||
-  //     ||        ||      ||   ||   ||     ||        ||      ||||
-  //     ||        ||||||||||   ||     ||   ||||||||  ||        ||
-
-  
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   const [token, setToken] = useState(() => localStorage.getItem('token') || null);
+  const [roles, setRoles] = useState([]); // Trạng thái lưu trữ mảng quyền
 
   const saveToken = (newToken) => {
     localStorage.setItem('token', newToken);
@@ -51,81 +23,90 @@ export const ContextProvider = ({ children }) => {
   const removeToken = () => {
     localStorage.removeItem('token');
     setToken(null);
+    setRoles([]); // Xóa luôn mảng quyền khi token bị xóa
   };
 
-  useEffect(() => {
-    const checkTokenValidity = async () => {
+  // Hàm kiểm tra và xác thực token
+  const verifyToken = async (currentToken) => {
+    try {
+      const response = await fetch("http://localhost:8082/token/check", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: currentToken }),
+      });
 
+      const isValid = await response.json();
+      if (!isValid) {
+        console.error("Token không hợp lệ hoặc đã hết hạn!");
+        removeToken();
+        return false;
+      }
+
+      // Kiểm tra thời gian hết hạn của token
+      const decodedToken = JSON.parse(atob(currentToken.split('.')[1]));
+      const expiryTime = decodedToken.exp * 1000;
+      const currentTime = Date.now();
+
+      if (expiryTime <= currentTime) {
+        console.error("Token đã hết hạn!");
+        removeToken();
+        return false;
+      }
+
+      // Nếu token hợp lệ, trả về true
+      return true;
+    } catch (error) {
+      console.error("Lỗi khi kiểm tra token:", error);
+      removeToken();
+      return false;
+    }
+  };
+
+  // Hàm fetch role từ API
+  const fetchRole = async (currentToken) => {
+    try {
+      const response = await fetch("http://localhost:8082/user_data/get_role", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentToken}`, // Gửi token trong Authorization Header
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Không thể lấy thông tin quyền từ server.");
+      }
+
+      const roleData = await response.json();
+      setRoles(roleData); // Lưu mảng quyền vào state
+      console.log(roleData)
+    } catch (error) {
+      console.error("Lỗi khi lấy quyền:", error);
+      setRoles([]); // Nếu xảy ra lỗi, đặt lại roles thành mảng rỗng
+    }
+  };
+
+  // Kiểm tra token và lấy quyền nếu hợp lệ
+  useEffect(() => {
+    const processTokenAndRoles = async () => {
       if (!token) return;
 
-
-       // Kiểm tra token qua backend
-       try {
-        const response = await fetch("http://localhost:8082/token/check", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ token }),
-        });
-
-        const isValid = await response.json();
-        if (!isValid) {
-          console.error("Token không hợp lệ hoặc đã hết hạn!");
-          removeToken(); // Xóa token khi không hợp lệ
-        }else{
-          console.error("Token  hợp lệ ");
-        }
-      } catch (error) {
-        console.error("Lỗi khi kiểm tra token:", error);
-        removeToken();
+      const isTokenValid = await verifyToken(token);
+      if (isTokenValid) {
+        await fetchRole(token); // Chỉ gọi fetchRole nếu token hợp lệ
       }
-
-      // Giải mã token để lấy thời gian hết hạn
-      try {
-        const decodedToken = JSON.parse(atob(token.split('.')[1])); // Giải mã phần payload
-        const expiryTime = decodedToken.exp * 1000; // Chuyển sang milliseconds
-        const currentTime = Date.now();
-
-        if (expiryTime <= currentTime) {
-          // Token đã hết hạn
-          console.error("Token đã hết hạn!");
-          removeToken(); // Gọi hàm xóa token
-        } else {
-          // Thiết lập timeout để kiểm tra lại khi token hết hạn
-          const timeoutDuration = expiryTime - currentTime;
-          const timeoutId = setTimeout(() => {
-            console.error("Token đã hết hạn!");
-            removeToken();
-          }, timeoutDuration);
-
-          return () => clearTimeout(timeoutId); // Dọn dẹp timeout cũ khi token thay đổi
-        }
-      } catch (error) {
-        console.error("Lỗi khi giải mã token:", error);
-        removeToken();
-      }
-      
-      console.log(token)
-     
     };
 
-    checkTokenValidity();
-  }, [token]); // Chỉ chạy khi token thay đổi
-
-  // ||||||||||    ||||||||||   ||    ||    ||||||||  ||||      ||
-  //     ||        ||      ||   ||  ||      ||        ||  ||    ||
-  //     ||        ||      ||   ||||||      ||||||||  ||    ||  ||
-  //     ||        ||      ||   ||   ||     ||        ||      ||||
-  //     ||        ||||||||||   ||     ||   ||||||||  ||        ||
-
+    processTokenAndRoles();
+  }, [token]);
 
   return (
-    <Context.Provider value={{ cart, setCart, token, saveToken, removeToken }}>
+    <Context.Provider value={{ cart, setCart, token, saveToken, removeToken, roles }}>
       {children}
     </Context.Provider>
   );
 };
 
-// Xuất context để các component khác có thể sử dụng
 export default Context;

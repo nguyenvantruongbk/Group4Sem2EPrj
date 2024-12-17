@@ -37,6 +37,8 @@ function App() {
 
   const [cart,setCart] = useState([]);
 
+  
+
 
   return (
     <ContextProvider >
@@ -52,7 +54,7 @@ function App() {
               {/* <Route path="/product/:id" element={<Default_Layout> <ProductDetails /></Default_Layout>} /> */}
               <Route path="/product/:id" element={<Default_Layout><ProductDetail /></Default_Layout>} />
               <Route path="/contact" element={<Slider_Layout><Contact/></Slider_Layout>} />
-              
+
               {/* KhachHang */}
               <Route path="/user_list" element={<UserList />} />
               <Route path="/update_user" element={<Default_Layout><UpdateUser/></Default_Layout>} />
