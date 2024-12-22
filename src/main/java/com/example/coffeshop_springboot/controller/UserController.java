@@ -2,7 +2,9 @@ package com.example.coffeshop_springboot.controller;
 
 import com.example.coffeshop_springboot.entity.User;
 import com.example.coffeshop_springboot.entity.UserAuth;
+import com.example.coffeshop_springboot.entity.UserRole;
 import com.example.coffeshop_springboot.repository.UserAuth_Repository;
+import com.example.coffeshop_springboot.service.UserRole_Service;
 import com.example.coffeshop_springboot.service.User_Service;
 import com.example.coffeshop_springboot.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,6 +28,9 @@ public class UserController {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserRole_Service userRoleService;
 
     @PostMapping("/get_user")
     public ResponseEntity<?> get_User(@RequestHeader("Authorization") String token ){
@@ -64,6 +70,18 @@ public class UserController {
             return new ResponseEntity<>(update_user,HttpStatus.OK);
         } catch (Exception e) {
             return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/get_role")
+    public List<UserRole> find_role(@RequestHeader("Authorization") String token){
+        try {
+            String jwtToken = token.replace("Bearer ", "");
+            UserAuth userAuth_token = jwtUtil.extractUserAuth(jwtToken);
+            Optional<UserAuth> userAuth = userAuthRepository.findByAuth_id(userAuth_token.getAuth_id());
+             return userRoleService.find_role_by_user_id(userAuth.get().getUser().getUserId());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

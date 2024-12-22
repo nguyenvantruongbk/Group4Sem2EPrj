@@ -5,6 +5,7 @@ import com.example.coffeshop_springboot.dto.UpdateOrderStatusDTO;
 import com.example.coffeshop_springboot.entity.Order_coffee_entity.Order;
 import com.example.coffeshop_springboot.entity.UserAuth;
 import com.example.coffeshop_springboot.repository.UserAuth_Repository;
+import com.example.coffeshop_springboot.service.EmailService;
 import com.example.coffeshop_springboot.service.Order_coffee_service.OrderService;
 import com.example.coffeshop_springboot.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,20 @@ public class OrderController {
     @Autowired
     private UserAuth_Repository userAuthRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody OrderDTO order,@RequestHeader("Authorization") String token) {
         String jwtToken = token.replace("Bearer ", "");
         UserAuth userAuth_token = jwtUtil.extractUserAuth(jwtToken);
         UserAuth userAuth = userAuthRepository.findByAuth_id(userAuth_token.getAuth_id()).get();
         Order newOrder = orderService.createOrder(order,userAuth);
+
+        if (userAuth.getUser().getEmail() != null ){
+            emailService.send_Email_Data(userAuth.getUser().getEmail(),"Đơn Hàng","Đã Có Một Đơn Hàng");
+        }
+
         return new ResponseEntity<>(newOrder, HttpStatus.OK);
     }
 
